@@ -2,7 +2,10 @@
 public class Start {
 
 	public static void main(String[] args) {
-		HexapodeJavaApi.home();
+		
+		Hexapode.start();
+		
+		Hexapode.home();
 
 	}
 
