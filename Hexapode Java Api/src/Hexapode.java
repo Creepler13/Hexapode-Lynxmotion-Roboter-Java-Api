@@ -21,12 +21,23 @@ public class Hexapode {
 	final static Serial serial = SerialFactory.createInstance();
 	final static Console console = new Console();
 	
+	
+	 
+	
+	
 	public static void start(int homestart) {
 		serial.addListener(new SerialDataEventListener() {
-			public void dataReceived(SerialDataEvent event) {
+	         @Override
+	         public void dataReceived(SerialDataEvent event) {
 
-			}
-		});
+	             try {
+	                 console.println("[HEX DATA]   " + event.getHexByteString());
+	                 console.println("[ASCII DATA] " + event.getAsciiString());
+	             } catch (IOException e) {
+	                 e.printStackTrace();
+	             }
+	         }
+	     });
 		SerialConfig config = new SerialConfig();
 		try {
 			config.device(SerialPort.getDefaultPort()).baud(Baud._38400).dataBits(DataBits._8).parity(Parity.NONE)
