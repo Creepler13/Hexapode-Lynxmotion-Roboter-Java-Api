@@ -12,6 +12,7 @@ import com.pi4j.io.serial.SerialDataEventListener;
 import com.pi4j.io.serial.SerialFactory;
 import com.pi4j.io.serial.SerialPort;
 import com.pi4j.io.serial.StopBits;
+import com.pi4j.util.Console;
 
 public class Hexapode {
 	/**
@@ -49,8 +50,11 @@ public class Hexapode {
 
 	public static void home() {
 
+		final Console console = new Console();
+		
 		try {
 			serial.write("#5 P1600 #10 P750 T2500 <cr>");
+			console.println("Befehl ausgeführt");
 		} catch (IllegalStateException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
