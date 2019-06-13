@@ -54,7 +54,7 @@ public class Hexapode {
 		
 		try {
 			serial.write("#5 P1600 #10 P750 T2500 <cr>");
-			console.println("Befehl ausgeführt");
+			console.println("Befehl ausgefeahrt");
 		} catch (IllegalStateException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
