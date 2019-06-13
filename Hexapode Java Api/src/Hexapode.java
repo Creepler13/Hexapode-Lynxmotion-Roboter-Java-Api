@@ -19,7 +19,8 @@ public class Hexapode {
 	 * @param args
 	 */
 	final static Serial serial = SerialFactory.createInstance();
-
+	final static Console console = new Console();
+	
 	public static void start(int homestart) {
 		serial.addListener(new SerialDataEventListener() {
 			public void dataReceived(SerialDataEvent event) {
@@ -37,6 +38,7 @@ public class Hexapode {
 
 		try {
 			serial.open(config);
+			console.println("port openend");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,13 +46,14 @@ public class Hexapode {
 		
 		if(homestart == 1) {
 			home();
+			console.println("home started");
 		}
 
 	}
 
 	public static void home() {
 
-		final Console console = new Console();
+		
 		
 		try {
 			serial.write("#5 P1600 #10 P750 T2500 <cr>");
