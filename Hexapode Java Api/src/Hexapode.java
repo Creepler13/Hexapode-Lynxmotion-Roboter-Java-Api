@@ -19,7 +19,7 @@ public class Hexapode {
 	 */
 	final static Serial serial = SerialFactory.createInstance();
 
-	public static void start() {
+	public static void start(int homestart) {
 		serial.addListener(new SerialDataEventListener() {
 			public void dataReceived(SerialDataEvent event) {
 
@@ -39,6 +39,10 @@ public class Hexapode {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		if(homestart == 1) {
+			home();
 		}
 
 	}
