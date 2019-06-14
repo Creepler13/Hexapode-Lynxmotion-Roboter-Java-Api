@@ -20,57 +20,42 @@ public class Hexapode {
 	 */
 	final static Serial serial = SerialFactory.createInstance();
 	final static Console console = new Console();
-	
-	
-	 
-	
-	
+
 	public static void start(int homestart) {
 		serial.addListener(new SerialDataEventListener() {
-	         @Override
-	         public void dataReceived(SerialDataEvent event) {
-
-	             try {
-	                 console.println("[HEX DATA]   " + event.getHexByteString());
-	                 console.println("[ASCII DATA] " + event.getAsciiString());
-	             } catch (IOException e) {
-	                 e.printStackTrace();
-	             }
-	         }
-	     });
+			@Override
+			public void dataReceived(SerialDataEvent event) {
+				try {
+					console.println("[HEX DATA]   " + event.getHexByteString());
+					console.println("[ASCII DATA] " + event.getAsciiString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		SerialConfig config = new SerialConfig();
 		try {
 			config.device(SerialPort.getDefaultPort()).baud(Baud._38400).dataBits(DataBits._8).parity(Parity.NONE)
 					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
-		} catch (UnsupportedBoardType | IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
 			serial.open(config);
 			console.println("port openend");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (UnsupportedBoardType | IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		if(homestart == 1) {
+		if (homestart == 1) {
 			home();
-			console.println("home started");
 		}
+	}
 
+	public static void println(String msg) {
+		console.println(msg);	
 	}
 
 	public static void home() {
 
-		
-		
 		try {
 			serial.write("#5 P1600 #10 P750 T2500 <cr>");
-			console.println("Befehl ausgefeahrt");
 		} catch (IllegalStateException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
