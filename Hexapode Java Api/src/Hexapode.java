@@ -51,7 +51,6 @@ public class Hexapode {
 	}
 
 	public static void home() {
-
 		try {
 			serial.write("#5 P1600 #10 P750 T2500 <cr>");
 		} catch (IllegalStateException | IOException e) {
