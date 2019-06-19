@@ -20,6 +20,13 @@ public class Hexapode {
 	 */
 	final static Serial serial = SerialFactory.createInstance();
 	final static Console console = new Console();
+	private static int[] lv = { 29, 30, 31 };// aussen = 0, mitte = 1, innen= 2 (Motoren)
+	private static int[] lm = { 25, 26, 27 };// Strom == hinten
+	private static int[] lh = { 21, 22, 23 };
+	private static int[] rv = { 13, 14, 15 };
+	private static int[] rm = { 9, 10, 11 };
+	private static int[] rh = { 5, 6, 7 };
+	private static Object[] all = { lv, lm, lh, rv, rm, rh };
 
 	public static void start(int homestart) {
 		serial.addListener(new SerialDataEventListener() {
@@ -47,12 +54,38 @@ public class Hexapode {
 	}
 
 	public static void println(String msg) {
-		console.println(msg);	
+		console.println(msg);
 	}
 
 	public static void home() {
 		try {
-			serial.write("#5 P1600 #10 P750 T2500 <cr>");
+			String home = "";
+			for (int i = 0; i < all.length; i++) {
+				int[] a = (int[]) all[i];
+				for (int j = 0; j < 3; j++) {
+					switch (j) {
+					case 0:
+						home = home + "#";
+						home = home + a[0];
+						home = home + " P1350 ";
+						break;
+					case 1:
+						home = home + "#";
+						home = home + a[1];
+						home = home + " P1650 ";
+						break;
+					case 2:
+						home = home + "#";
+						home = home + a[2];
+						home = home + " P1500 ";
+						break;
+
+					}
+				}
+			}
+
+			home = home + "T2500 <cr>";
+			serial.write(home);
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
