@@ -42,7 +42,7 @@ public class Hexapode {
 		});
 		SerialConfig config = new SerialConfig();
 		try {
-			config.device(SerialPort.getDefaultPort()).baud(Baud._38400).dataBits(DataBits._8).parity(Parity.NONE)
+			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
 					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
 			serial.open(config);
 		} catch (UnsupportedBoardType | IOException | InterruptedException e) {
@@ -86,7 +86,7 @@ public class Hexapode {
 
 			home = home + "T2500 <cr>";
 		console.println(home);
-			serial.write("#29 P1600 #30 P750 T2500 <cr>");
+			serial.write(("#29 P1600 #30 P750 T2500 <cr>"));
 			//serial.write(home);
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
