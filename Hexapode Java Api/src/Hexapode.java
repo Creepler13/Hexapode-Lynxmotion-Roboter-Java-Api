@@ -58,6 +58,7 @@ public class Hexapode {
 	}
 
 	public static void home() {
+		console.println(serial);
 		try {
 			String home = "";
 			for (int i = 0; i < all.length; i++) {
@@ -86,8 +87,8 @@ public class Hexapode {
 
 			home = home + "T2500 <cr>";
 		console.println(home);
-			serial.write(("#29 P1600 #30 P750 T2500 <cr>"));
-			//serial.write(home);
+//			serial.write(("#29 P1600 #30 P750 T2500 <cr>"));
+			serial.write(home);
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
