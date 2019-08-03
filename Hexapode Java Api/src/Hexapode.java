@@ -12,6 +12,7 @@ import com.pi4j.io.serial.SerialDataEventListener;
 import com.pi4j.io.serial.SerialFactory;
 import com.pi4j.io.serial.SerialPort;
 import com.pi4j.io.serial.StopBits;
+import com.pi4j.util.CommandArgumentParser;
 import com.pi4j.util.Console;
 
 public class Hexapode {
@@ -28,7 +29,7 @@ public class Hexapode {
 	private static int[] rh = { 5, 6, 7 };
 	private static Object[] all = { lv, lm, lh, rv, rm, rh };
 
-	public static void start(int homestart) {
+	public static void start(int homestart, String args[]) {
 		serial.addListener(new SerialDataEventListener() {
 			@Override
 			public void dataReceived(SerialDataEvent event) {
@@ -41,9 +42,15 @@ public class Hexapode {
 			}
 		});
 		SerialConfig config = new SerialConfig();
+
 		try {
 			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
 					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
+
+			if (args.length > 0) {
+				config = CommandArgumentParser.getSerialConfig(config, args);
+			}
+
 			serial.open(config);
 		} catch (UnsupportedBoardType | IOException | InterruptedException e) {
 			e.printStackTrace();
@@ -59,7 +66,7 @@ public class Hexapode {
 
 	public static void home() {
 		console.println(serial);
-		
+
 		try {
 			String home = "";
 			for (int i = 0; i < all.length; i++) {
@@ -87,9 +94,9 @@ public class Hexapode {
 			}
 
 			home = home + "T2500 <cr>";
-			Serial.write("#5P1500S750<cr>");
+			serial.write("#5P1500S750<cr>");
 
-		console.println(home);
+			console.println(home);
 //			serial.write(("#29 P1600 #30 P750 T2500 <cr>"));
 //			serial.write(home);
 //			serial.flush();
