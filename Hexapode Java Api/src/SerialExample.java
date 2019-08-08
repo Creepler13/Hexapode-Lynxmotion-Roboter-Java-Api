@@ -120,7 +120,7 @@ public class SerialExample {
 //                    serial.write("CURRENT TIME: " + new Date().toString());
 
 //                    // write a individual bytes to the serial transmit buffer
-//                   serial.write((byte) 13);
+                  serial.write((byte) 13);
 //                    serial.write((byte) 10);
 //
 //                    // write a simple string to the serial transmit buffer
