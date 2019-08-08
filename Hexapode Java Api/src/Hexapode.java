@@ -29,7 +29,7 @@ public class Hexapode {
 	private static int[] rh = { 5, 6, 7 };
 	private static Object[] all = { lv, lm, lh, rv, rm, rh };
 
-	public static void start(int homestart, String args[]) throws InterruptedException , IOException{
+	public static void start(int homestart, String args[]){
 		
 		
 		try {
