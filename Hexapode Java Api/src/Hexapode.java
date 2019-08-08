@@ -1,6 +1,5 @@
 import java.io.IOException;
 
-import com.pi4j.io.gpio.exception.UnsupportedBoardType;
 import com.pi4j.io.serial.Baud;
 import com.pi4j.io.serial.DataBits;
 import com.pi4j.io.serial.FlowControl;
@@ -17,7 +16,7 @@ public class Hexapode {
 	/**
 	 * @param args
 	 */
-	
+	final static Serial serial = SerialFactory.createInstance();
 	final static Console console = new Console();
 	private static int[] lv = { 29, 30, 31 };// aussen = 0, mitte = 1, innen= 2 (Motoren)
 	private static int[] lm = { 25, 26, 27 };// Strom == hinten
@@ -27,9 +26,25 @@ public class Hexapode {
 	private static int[] rh = { 5, 6, 7 };
 	private static Object[] all = { lv, lm, lh, rv, rm, rh };
 
-	public static void start(int homestart, String args[]) throws InterruptedException,IOException{
-		
-		
+	public static void start(int homestart, String args[]) throws InterruptedException, IOException {
+
+		try {
+
+			SerialConfig config = new SerialConfig();
+
+			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
+					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
+
+			if (args.length > 0) {
+				config = CommandArgumentParser.getSerialConfig(config, args);
+			}
+
+			serial.open(config);
+			serial.write("#5 P1000 #7 P2000 T2500 <cr>");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		if (homestart == 1) {
 			home();
 		}
@@ -69,12 +84,9 @@ public class Hexapode {
 			}
 
 			home = home + "T2500 <cr>";
-//			serial.write("#5 P1000 #7 P1500 T2500 <cr>");
 
-			// console.println(home);
-//			serial.write(("#29 P1600 #30 P750 T2500 <cr>"));
-//			serial.write(home);
-//			serial.flush();
+			serial.write(home);
+			serial.write((byte) 13);
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}
