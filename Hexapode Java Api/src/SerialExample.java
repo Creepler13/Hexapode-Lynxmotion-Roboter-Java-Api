@@ -58,6 +58,26 @@ public class SerialExample {
      */
     public static void main(String args[]) throws InterruptedException, IOException {
 
+        // !! ATTENTION !!
+        // By default, the serial port is configured as a console port
+        // for interacting with the Linux OS shell.  If you want to use
+        // the serial port in a software program, you must disable the
+        // OS from using this port.
+        //
+        // Please see this blog article for instructions on how to disable
+        // the OS console for this port:
+        // https://www.cube-controls.com/2015/11/02/disable-serial-port-terminal-output-on-raspbian/
+
+        // create Pi4J console wrapper/helper
+        // (This is a utility class to abstract some of the boilerplate code)
+        final Console console = new Console();
+
+        // print program title/header
+        console.title("<-- The Pi4J Project -->", "Serial Communication Example");
+
+        // allow for user to exit program using CTRL-C
+        console.promptForExit();
+
         // create an instance of the serial communications class
         final Serial serial = SerialFactory.createInstance();
 
@@ -83,25 +103,47 @@ public class SerialExample {
                 config = CommandArgumentParser.getSerialConfig(config, args);
             }
 
-      
+            // display connection details
+            console.box(" Connecting to: " + config.toString(),
+                    " We are sending ASCII data on the serial port every 1 second.",
+                    " Data received on serial port will be displayed below.");
+
 
             //#Se5 P1600 #10 P750 T2500 <cr> open the default serial device/port with the configuration settings
             serial.open(config);
 
-            serial.write("#5 P1000 #10 P2000 T2500 <cr>");
+            serial.write("#5 P2000 #10 P1000 T2500 <cr>");
            // continuous loop to keep the program running until the user terminates the program
-           for (int i = 0; i < 100; i++) {
-			
-		
-              
-            
+            while(console.isRunning()) {
+                try {
+                    // write a formatted string to the serial transmit buffer
+                    serial.write("CURRENT TIME: " + new Date().toString());
 
-    
+                    // write a individual bytes to the serial transmit buffer
+                   serial.write((byte) 13);
+                    serial.write((byte) 10);
+
+                    // write a simple string to the serial transmit buffer
+                    serial.write("Second Line");
+
+                    // write a individual characters to the serial transmit buffer
+                    serial.write('\r');
+                    serial.write('\n');
+
+                    // write a string terminating with CR+LF to the serial transmit buffer
+                    serial.writeln("Third Line");
+                }
+                catch(IllegalStateException ex){
+                    ex.printStackTrace();
+                }
+
+                // wait 1 second before continuing
                 Thread.sleep(1000);
             }
 
         }
         catch(IOException ex) {
+            console.println(" ==>> SERIAL SETUP FAILED : " + ex.getMessage());
             return;
         }
     }
