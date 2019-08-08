@@ -112,12 +112,12 @@ public class SerialExample {
             //#Se5 P1600 #10 P750 T2500 <cr> open the default serial device/port with the configuration settings
             serial.open(config);
 
-            serial.write("#5 P2000 #10 P1000 T2500 <cr>");
+            serial.writeln("#5 P2000 #10 P1000 T2500 <cr>");
            // continuous loop to keep the program running until the user terminates the program
             while(console.isRunning()) {
-                try {
-                    // write a formatted string to the serial transmit buffer
-                    serial.write("CURRENT TIME: " + new Date().toString());
+//                try {
+//                    // write a formatted string to the serial transmit buffer
+//                    serial.write("CURRENT TIME: " + new Date().toString());
 
 //                    // write a individual bytes to the serial transmit buffer
 //                   serial.write((byte) 13);
@@ -132,10 +132,10 @@ public class SerialExample {
 //
 //                    // write a string terminating with CR+LF to the serial transmit buffer
 //                    serial.writeln("Third Line");
-                }
-                catch(IllegalStateException ex){
-                    ex.printStackTrace();
-                }
+//                }
+//                catch(IllegalStateException ex){
+//                    ex.printStackTrace();
+//                }
 
                 // wait 1 second before continuing
                 Thread.sleep(1000);
