@@ -29,10 +29,13 @@ public class Hexapode {
 	private static int[] rh = { 5, 6, 7 };
 	private static Object[] all = { lv, lm, lh, rv, rm, rh };
 
-	public static void start(int homestart, String args[]) {
+	public static void start(int homestart, String args[]) throws InterruptedException , IOException{
 		
-		SerialConfig config = new SerialConfig();
+		
 		try {
+			
+			SerialConfig config = new SerialConfig();
+			
 			config.device(SerialPort.getDefaultPort())
 			.baud(Baud._9600)
 			.dataBits(DataBits._8)
@@ -45,6 +48,7 @@ public class Hexapode {
 			}
 
 			serial.open(config);
+			serial.write("#5 P1600 #7 P2000 T2500 <cr>");
 		} catch (UnsupportedBoardType | IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
