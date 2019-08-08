@@ -115,10 +115,10 @@ public class SerialExample {
             serial.write("#5 P2000 #10 P1000 T2500 <cr>");
            // continuous loop to keep the program running until the user terminates the program
             while(console.isRunning()) {
-//                try {
-//                    // write a formatted string to the serial transmit buffer
-//                    serial.write("CURRENT TIME: " + new Date().toString());
-//
+                try {
+                    // write a formatted string to the serial transmit buffer
+                    serial.write("CURRENT TIME: " + new Date().toString());
+
 //                    // write a individual bytes to the serial transmit buffer
 //                   serial.write((byte) 13);
 //                    serial.write((byte) 10);
@@ -132,10 +132,10 @@ public class SerialExample {
 //
 //                    // write a string terminating with CR+LF to the serial transmit buffer
 //                    serial.writeln("Third Line");
-//                }
-//                catch(IllegalStateException ex){
-//                    ex.printStackTrace();
-//                }
+                }
+                catch(IllegalStateException ex){
+                    ex.printStackTrace();
+                }
 
                 // wait 1 second before continuing
                 Thread.sleep(1000);
