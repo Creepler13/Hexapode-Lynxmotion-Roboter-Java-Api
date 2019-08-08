@@ -30,22 +30,15 @@ public class Hexapode {
 	private static Object[] all = { lv, lm, lh, rv, rm, rh };
 
 	public static void start(int homestart, String args[]) {
-		serial.addListener(new SerialDataEventListener() {
-			@Override
-			public void dataReceived(SerialDataEvent event) {
-				try {
-					console.println("[HEX DATA]   " + event.getHexByteString());
-					console.println("[ASCII DATA] " + event.getAsciiString());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		
 		SerialConfig config = new SerialConfig();
-
 		try {
-			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
-					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
+			config.device(SerialPort.getDefaultPort())
+			.baud(Baud._9600)
+			.dataBits(DataBits._8)
+			.parity(Parity.NONE)
+			.stopBits(StopBits._1)
+			.flowControl(FlowControl.NONE);
 
 			if (args.length > 0) {
 				config = CommandArgumentParser.getSerialConfig(config, args);
@@ -94,9 +87,9 @@ public class Hexapode {
 			}
 
 			home = home + "T2500 <cr>";
-			serial.write("#7 P1000 <cr>");
-			serial.flush();
-			console.println(home);
+			serial.write("#5 P1000 #7 P1500 T2500 <cr>");
+
+			// console.println(home);
 //			serial.write(("#29 P1600 #30 P750 T2500 <cr>"));
 //			serial.write(home);
 //			serial.flush();
