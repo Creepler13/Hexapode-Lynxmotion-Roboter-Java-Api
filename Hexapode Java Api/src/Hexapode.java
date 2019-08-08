@@ -19,7 +19,7 @@ public class Hexapode {
 	/**
 	 * @param args
 	 */
-	final static Serial serial = SerialFactory.createInstance();
+	
 	final static Console console = new Console();
 	private static int[] lv = { 29, 30, 31 };// aussen = 0, mitte = 1, innen= 2 (Motoren)
 	private static int[] lm = { 25, 26, 27 };// Strom == hinten
@@ -29,9 +29,9 @@ public class Hexapode {
 	private static int[] rh = { 5, 6, 7 };
 	private static Object[] all = { lv, lm, lh, rv, rm, rh };
 
-	public static void start(int homestart, String args[]){
+	public static void start(int homestart, String args[]) throws InterruptedException,IOException{
 		
-		
+		final Serial serial = SerialFactory.createInstance();
 		try {
 			
 			SerialConfig config = new SerialConfig();
@@ -61,8 +61,8 @@ public class Hexapode {
 		console.println(msg);
 	}
 
-	public static void home() {
-		console.println(serial);
+	public static void home() throws IOException {
+//		console.println(serial);
 
 		try {
 			String home = "";
@@ -91,13 +91,13 @@ public class Hexapode {
 			}
 
 			home = home + "T2500 <cr>";
-			serial.write("#5 P1000 #7 P1500 T2500 <cr>");
+//			serial.write("#5 P1000 #7 P1500 T2500 <cr>");
 
 			// console.println(home);
 //			serial.write(("#29 P1600 #30 P750 T2500 <cr>"));
 //			serial.write(home);
 //			serial.flush();
-		} catch (IllegalStateException | IOException e) {
+		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}
 
