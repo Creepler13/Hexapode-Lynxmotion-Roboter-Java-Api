@@ -1,20 +1,12 @@
-import java.io.IOException;
 
-import com.pi4j.io.gpio.exception.UnsupportedBoardType;
-import com.pi4j.io.serial.Baud;
-import com.pi4j.io.serial.DataBits;
-import com.pi4j.io.serial.FlowControl;
-import com.pi4j.io.serial.Parity;
-import com.pi4j.io.serial.Serial;
-import com.pi4j.io.serial.SerialConfig;
-import com.pi4j.io.serial.SerialFactory;
-import com.pi4j.io.serial.SerialPort;
-import com.pi4j.io.serial.StopBits;
+import com.pi4j.io.serial.*;
 import com.pi4j.util.CommandArgumentParser;
+
+import java.io.IOException;
 
 public class Start {
 
-	public static void main(String[] args) throws InterruptedException, IOException {
+	public static void main(String args[]) throws InterruptedException, IOException {
 		
 		
 		final Serial serial = SerialFactory.createInstance();
@@ -34,8 +26,8 @@ public class Start {
 			}
 
 			serial.open(config);
-			serial.write("#5 P1600 #7 P2000 T2500 <cr>");
-		} catch (UnsupportedBoardType | IOException | InterruptedException e) {
+			serial.write("#5 P1000 #7 P2000 T2500 <cr>");
+		} catch ( IOException e) {
 			e.printStackTrace();
 		}
 		
