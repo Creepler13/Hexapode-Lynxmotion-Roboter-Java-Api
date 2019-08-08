@@ -112,7 +112,7 @@ public class SerialExample {
             //#Se5 P1600 #10 P750 T2500 <cr> open the default serial device/port with the configuration settings
             serial.open(config);
 
-            serial.writeln("#5 P2000 #10 P1000 T2500 <cr>");
+            serial.writeln("#5 P1500 #6 P1500 #7 P1500 T2500 <cr>");
            // continuous loop to keep the program running until the user terminates the program
             while(console.isRunning()) {
 //                try {
