@@ -95,7 +95,7 @@ public class Hexapode {
 
 			home = home + "T2500 <cr>";
 			serial.write("#7 P1000 <cr>");
-
+			serial.flush();
 			console.println(home);
 //			serial.write(("#29 P1600 #30 P750 T2500 <cr>"));
 //			serial.write(home);
