@@ -54,6 +54,23 @@ public class Hexapode {
 		}
 	}
 
+	public static void action(String in) {
+
+		String[] commands = in.split(",");
+		for (int j = 0; j < commands.length; j++) {
+
+			switch (commands[j].split("(")[0]) {
+			case "println":
+				println(commands[j].split("(")[0].split(")")[0]);
+				break;
+
+			default:
+				break;
+			}
+
+		}
+	}
+
 	public static void println(String msg) {
 		console.println(msg);
 	}
@@ -93,22 +110,5 @@ public class Hexapode {
 			e.printStackTrace();
 		}
 
-	}
-
-	public static void run(String in){
-		
-		String[] commands = in.split(",");
-		for (int j = 0; j < commands.length; j++) {
-
-			switch (commands[j]) {
-			case "home()":
-
-				break;
-
-			default:
-				break;
-			}
-
-		}
 	}
 }
