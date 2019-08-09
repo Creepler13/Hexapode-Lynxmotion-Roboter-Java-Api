@@ -1,9 +1,7 @@
 
-import java.io.IOException;
-
 public class Start {
 
-	public static void main(String args[]) throws InterruptedException, IOException {
+	public static void main(String args[]) {
 		
 		Hexapode.start(1,args);
 		Hexapode.println("Test");

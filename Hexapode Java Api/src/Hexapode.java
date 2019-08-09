@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+import com.pi4j.io.gpio.exception.UnsupportedBoardType;
 import com.pi4j.io.serial.Baud;
 import com.pi4j.io.serial.DataBits;
 import com.pi4j.io.serial.FlowControl;
@@ -25,28 +26,31 @@ public class Hexapode {
 	private static int[] rm = { 9, 10, 11 };
 	private static int[] rh = { 5, 6, 7 };
 	private static Object[] all = { lv, lm, lh, rv, rm, rh };
+	private static Object[] left = { lv, lm, lh };
+	private static Object[] right = { rv, rm, rh };
 
-	public static void start(int homestart, String args[]) throws InterruptedException, IOException {
-
+	public static void start(int homestart, String args[]) {
 		try {
-
 			SerialConfig config = new SerialConfig();
-
-			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
-					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
-
+			try {
+				config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
+						.stopBits(StopBits._1).flowControl(FlowControl.NONE);
+			} catch (UnsupportedBoardType | InterruptedException e) {
+				e.printStackTrace();
+			}
 			if (args.length > 0) {
 				config = CommandArgumentParser.getSerialConfig(config, args);
 			}
-
 			serial.open(config);
-			serial.write("#5 P1000 #7 P2000 T2500 <cr>");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		if (homestart == 1) {
-			home();
+			try {
+				home();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -55,8 +59,6 @@ public class Hexapode {
 	}
 
 	public static void home() throws IOException {
-//		console.println(serial);
-
 		try {
 			String home = "";
 			for (int i = 0; i < all.length; i++) {
@@ -93,4 +95,20 @@ public class Hexapode {
 
 	}
 
+	public static void run(String in){
+		
+		String[] commands = in.split(",");
+		for (int j = 0; j < commands.length; j++) {
+
+			switch (commands[j]) {
+			case "home()":
+
+				break;
+
+			default:
+				break;
+			}
+
+		}
+	}
 }
