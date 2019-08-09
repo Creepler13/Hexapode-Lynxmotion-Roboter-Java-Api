@@ -59,7 +59,7 @@ public class Hexapode {
 		String[] commands = in.split(",");
 		for (int j = 0; j < commands.length; j++) {
 
-			switch (commands[j].split("(")[0]) {
+			switch (commands[j].split("/")[0]) {
 			case "println":
 				println(commands[j].split("(")[0].split(")")[0]);
 				break;
