@@ -61,7 +61,7 @@ public class Hexapode {
 
 			switch (commands[j].split("/")[0]) {
 			case "println":
-				println(commands[j].split("/")[0].split("/")[0]);
+				println(commands[j].split("/")[1].split("/")[0]);
 				break;
 
 			default:
