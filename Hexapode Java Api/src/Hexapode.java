@@ -103,7 +103,7 @@ public class Hexapode {
 			}
 
 			home = home + "T2500 <cr>";
-
+console.print(home);
 			serial.write(home);
 			serial.write((byte) 13);
 		} catch (IllegalStateException e) {
