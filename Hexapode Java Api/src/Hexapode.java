@@ -46,11 +46,7 @@ public class Hexapode {
 			e.printStackTrace();
 		}
 		if (homestart == 1) {
-			try {
-				home();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			home();
 		}
 	}
 
@@ -75,7 +71,7 @@ public class Hexapode {
 		console.println(msg);
 	}
 
-	public static void home() throws IOException {
+	public static void home() {
 		try {
 			String home = "";
 			for (int i = 0; i < all.length; i++) {
@@ -103,9 +99,16 @@ public class Hexapode {
 			}
 
 			home = home + "T2500 <cr>";
-console.print(home);
-			serial.write(home);
-			serial.write((byte) 13);
+			
+			try {
+				console.print(home);
+				serial.write(home);
+				serial.write((byte) 13);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}
