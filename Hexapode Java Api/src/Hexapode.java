@@ -28,7 +28,11 @@ public class Hexapode {
 	private static Object[] all = { lv, lm, lh, rv, rm, rh };
 	private static Object[] left = { lv, lm, lh };
 	private static Object[] right = { rv, rm, rh };
-
+	public static String MapName;
+	public static float hexaX = 0; 
+	public static float hexaY = 0;
+	public static float hexaRotation = 0; 
+	
 	public static void start(int homestart, String args[]) {
 		try {
 			SerialConfig config = new SerialConfig();
@@ -51,7 +55,6 @@ public class Hexapode {
 	}
 
 	public static void action(String in) {
-
 		String[] commands = in.split(",");
 		for (int j = 0; j < commands.length; j++) {
 
@@ -70,48 +73,21 @@ public class Hexapode {
 	public static void println(String msg) {
 		console.println(msg);
 	}
+	
+	public static void debug(String MapName) {
+		Hexapode.MapName = MapName;
+		 debugthread dbThread = new debugthread();
+		  dbThread.start();
+	}
 
 	public static void home() {
 		try {
-			String home = "";
-			for (int i = 0; i < all.length; i++) {
-				int[] a = (int[]) all[i];
-				for (int j = 0; j < 3; j++) {
-					switch (j) {
-					case 0:
-						home = home + "#";
-						home = home + a[0];
-						home = home + " P1350 ";
-						break;
-					case 1:
-						home = home + "#";
-						home = home + a[1];
-						home = home + " P1650 ";
-						break;
-					case 2:
-						home = home + "#";
-						home = home + a[2];
-						home = home + " P1500 ";
-						break;
-
-					}
-				}
-			}
-
-			home = home + "T2500 <cr>";
-			
-			try {
-				console.print(home);
-				serial.write(home);
-				serial.write((byte) 13);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		} catch (IllegalStateException e) {
+			serial.write(
+					"#29 P1350 #30 P1650 #31 P1500 #25 P1350 #26 P1650 #27 P1500 #21 P1350 #22 P1650 #23 P1500 #13 P1350 #14 P1650 #15 P1500 #9 P1350 #10 P1650 #11 P1500 #5 P1350 #6 P1650 #7 P1500 T2500 <cr>");
+			serial.write((byte) 1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 }
