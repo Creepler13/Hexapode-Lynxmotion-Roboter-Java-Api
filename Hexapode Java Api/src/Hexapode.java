@@ -82,9 +82,10 @@ public class Hexapode {
 
 	public static void home() {
 		try {
+			serial.write((byte) 13);
 			serial.write(
 					"#29 P1350 #30 P1650 #31 P1500 #25 P1350 #26 P1650 #27 P1500 #21 P1350 #22 P1650 #23 P1500 #13 P1350 #14 P1650 #15 P1500 #9 P1350 #10 P1650 #11 P1500 #5 P1350 #6 P1650 #7 P1500 T2500 <cr>");
-			serial.write((byte) 13);
+			
 			console.println("homed");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
