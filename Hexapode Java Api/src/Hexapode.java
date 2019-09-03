@@ -1,4 +1,10 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+
+import javax.swing.SingleSelectionModel;
 
 import com.pi4j.io.gpio.exception.UnsupportedBoardType;
 import com.pi4j.io.serial.Baud;
@@ -19,38 +25,39 @@ public class Hexapode {
 	 */
 	final static Serial serial = SerialFactory.createInstance();
 	final static Console console = new Console();
-	private static int[] lv = { 29, 30, 31 };// aussen = 0, mitte = 1, innen= 2 (Motoren)
-	private static int[] lm = { 25, 26, 27 };// Strom == hinten
-	private static int[] lh = { 21, 22, 23 };
-	private static int[] rv = { 13, 14, 15 };
-	private static int[] rm = { 9, 10, 11 };
-	private static int[] rh = { 5, 6, 7 };
-	private static Object[] all = { lv, lm, lh, rv, rm, rh };
-	private static Object[] left = { lv, lm, lh };
-	private static Object[] right = { rv, rm, rh };
-	public static String MapName;
-	public static float hexaX = 0; 
-	public static float hexaY = 0;
-	public static float hexaRotation = 0; 
-	
-	public static void start(int homestart, String args[]) {
+	private static String[] motors, defaults;
+	private static String MapName;
+	private static boolean debug = false;
+	public static float hexaX = 50;
+	public static float hexaY = 50;
+	public static float hexaRotation = 0;
+
+	public static void start(int homestart) {
 		try {
-			SerialConfig config = new SerialConfig();
-			try {
-				config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
-						.stopBits(StopBits._1).flowControl(FlowControl.NONE);
-			} catch (UnsupportedBoardType | InterruptedException e) {
-				e.printStackTrace();
+			File theDir = new File("src/DebugMaps");
+			File configfile = new File("src/DebugMaps/config.txt");
+			if (!theDir.exists()) {
+				theDir.mkdir();
+				configfile.createNewFile();
+			} else if (!configfile.exists()) {
+				configfile.createNewFile();
+			} else {
+				try {
+					loadconfig();
+					SerialConfig config = new SerialConfig();
+					config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8)
+							.parity(Parity.NONE).stopBits(StopBits._1).flowControl(FlowControl.NONE);
+					serial.open(config);
+				} catch (UnsupportedBoardType | InterruptedException e) {
+					e.printStackTrace();
+				}
+				if (homestart == 1) {
+					home();
+				}
 			}
-			if (args.length > 0) {
-				config = CommandArgumentParser.getSerialConfig(config, args);
-			}
-			serial.open(config);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		if (homestart == 1) {
-			home();
 		}
 	}
 
@@ -71,25 +78,67 @@ public class Hexapode {
 	}
 
 	public static void println(String msg) {
-		console.println(msg);
+		if (debug != true) {
+			console.println(msg);
+		}
 	}
-	
+
 	public static void debug(String MapName) {
+		debug = true;
 		Hexapode.MapName = MapName;
-		 debugthread dbThread = new debugthread();
-		  dbThread.start();
+		debugthread dbThread = new debugthread();
+		dbThread.start();
 	}
 
 	public static void home() {
 		try {
-			serial.write((byte) 13);
+		
 			serial.write(
 					"#29 P1350 #30 P1650 #31 P1500 #25 P1350 #26 P1650 #27 P1500 #21 P1350 #22 P1650 #23 P1500 #13 P1350 #14 P1650 #15 P1500 #9 P1350 #10 P1650 #11 P1500 #5 P1350 #6 P1650 #7 P1500 T2500 <cr>");
-			
+
 			console.println("homed");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public static void walk(int m) {
+		if (debug != true) {
+
+		} else {
+			debugthread.movecalc(m);
+		}
+	}
+
+	private static void loadconfig() {
+		try {
+			String def;
+			String mot;
+			String input;
+			File file = new File("src/config.txt");
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			input = br.readLine();
+			motors = input.split("/")[0].split(",");
+			defaults = input.split("/")[1].split(",");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void rotate(int r) {
+		if (debug != true) {
+
+		} else {
+			hexaRotation = r;
+			debugthread.update();
+		}
+	}
+
+	private static void configcreate() {
+
 	}
 }
