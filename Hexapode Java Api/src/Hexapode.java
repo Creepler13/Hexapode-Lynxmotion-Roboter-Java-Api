@@ -31,9 +31,9 @@ public class Hexapode {
 
 	}
 
-	public static void moveMotor(int motor, int state, int time) {
+	public static void moveMotor(int servo, int state, int time) {
 		try {
-			serial.write("#" + motor + " P" + state + " T" + time + " <cr>");
+			serial.write("#" + servo + " P" + state + " T" + time + " <cr>");
 		} catch (IllegalStateException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
