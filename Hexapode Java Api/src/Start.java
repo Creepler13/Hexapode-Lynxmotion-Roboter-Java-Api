@@ -2,15 +2,9 @@
 public class Start {
 
 	public static void main(String args[]) {
-//		
+		Hexapode.moveMotor(13, 1500, 1500);
+		Hexapode.start();
 
-//		Hexapode.debug("tet");
-		Hexapode.start(0);
-		Hexapode.rotate(120);
-		Hexapode.walk(20);
-		System.out.println("test test");
-		// Hexapode.home();
-//		Hexapode.action("println/Print/");
 	}
 
 }
