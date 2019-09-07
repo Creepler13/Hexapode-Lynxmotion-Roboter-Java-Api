@@ -7,6 +7,8 @@ import com.pi4j.io.serial.FlowControl;
 import com.pi4j.io.serial.Parity;
 import com.pi4j.io.serial.Serial;
 import com.pi4j.io.serial.SerialConfig;
+import com.pi4j.io.serial.SerialDataEvent;
+import com.pi4j.io.serial.SerialDataEventListener;
 import com.pi4j.io.serial.SerialFactory;
 import com.pi4j.io.serial.SerialPort;
 import com.pi4j.io.serial.StopBits;
@@ -25,18 +27,15 @@ public class Hexapode {
 			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
 					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
 			serial.open(config);
-			  serial.addListener(new SerialDataEventListener() {
-            @Override
-            public void dataReceived(SerialDataEvent event) {
-
-	    }
-        });
+			serial.addListener(new SerialDataEventListener() {
+				@Override
+				public void dataReceived(SerialDataEvent event) {
+				}
+			});
 		} catch (UnsupportedBoardType | InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
 
-		
-		
 	}
 
 	public static void moveMotor(int servo, int state, int time) {
