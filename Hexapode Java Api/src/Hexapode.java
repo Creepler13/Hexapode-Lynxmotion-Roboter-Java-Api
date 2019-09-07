@@ -20,18 +20,19 @@ public class Hexapode {
 	 */
 	final static Serial serial = SerialFactory.createInstance();
 	final static Console console = new Console();
+	private static boolean started = false;
 
-	public static void start() {
+	private static void start() {
 		try {
 			SerialConfig config = new SerialConfig();
 			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
 					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
-			serial.open(config);
 			serial.addListener(new SerialDataEventListener() {
 				@Override
 				public void dataReceived(SerialDataEvent event) {
 				}
 			});
+			serial.open(config);
 		} catch (UnsupportedBoardType | InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
@@ -39,6 +40,10 @@ public class Hexapode {
 	}
 
 	public static void moveMotor(int servo, int state, int time) {
+		if (!started) {
+			start();
+			started = true;
+		}
 		try {
 			serial.write("#" + servo + " P" + state + " T" + time + " <cr>");
 		} catch (IllegalStateException | IOException e) {
