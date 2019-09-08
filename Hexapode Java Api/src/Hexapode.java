@@ -36,9 +36,8 @@ public class Hexapode {
 		} catch (UnsupportedBoardType | InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
-
 	}
-
+ 
 	public static void moveMotor(int servo, int state, int time) {
 		if (!started) {
 			start();
@@ -53,6 +52,7 @@ public class Hexapode {
 	}
 
 	public static void println(String msg) {
+		System.out.println(msg);
 		console.println(msg);
 	}
 }
