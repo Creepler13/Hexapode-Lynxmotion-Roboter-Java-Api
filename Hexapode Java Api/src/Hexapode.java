@@ -37,15 +37,18 @@ public class Hexapode {
 			e.printStackTrace();
 		}
 	}
- 
-	public static void moveMotor(int servo, int state, int time) {
+
+	public static void moveMotor(int servo, int state, int time, boolean stopThread) {
 		if (!started) {
 			start();
 			started = true;
 		}
 		try {
+			if (stopThread) {
+				Thread.sleep(time);
+			}
 			serial.write("#" + servo + " P" + state + " T" + time + " <cr>");
-		} catch (IllegalStateException | IOException e) {
+		} catch (IllegalStateException | IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
