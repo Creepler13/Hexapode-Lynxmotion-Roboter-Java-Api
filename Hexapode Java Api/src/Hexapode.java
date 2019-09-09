@@ -38,7 +38,7 @@ public class Hexapode {
 		}
 	}
 
-	public static void moveMotor(int servo, int state, int time, boolean stopThread) {
+	public static void moveServo(int servo, int state, int time, boolean stopThread) {
 		if (!started) {
 			start();
 			started = true;
