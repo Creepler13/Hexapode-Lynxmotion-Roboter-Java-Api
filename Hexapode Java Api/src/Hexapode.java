@@ -15,9 +15,7 @@ import com.pi4j.io.serial.StopBits;
 import com.pi4j.util.Console;
 
 public class Hexapode {
-	/**
-	 * @param args
-	 */
+
 	final static Serial serial = SerialFactory.createInstance();
 	final static Console console = new Console();
 	private static boolean started = false;
@@ -38,6 +36,25 @@ public class Hexapode {
 		}
 	}
 
+	/**
+	 * jkjkljk.
+	 * 
+	 * @param servo
+	 *            = Servo Controller Motor pin Nummer
+	 *
+	 * @param state
+	 *            = gewünschte Servo position bsp: 1500
+	 * 
+	 * @param time
+	 *            = Zeit bis der Servo state erreicht in ms
+	 * 
+	 * @param stopThread
+	 *            = true = stoppt den Main Thread für die zeit die der Servo bis
+	 *            [state] braucht([time]), false = motor bewegt sich thread läuft
+	 *            weiter.
+	 * @return null
+	 */
+
 	public static void moveServo(int servo, int state, int time, boolean stopThread) {
 		if (!started) {
 			start();
@@ -54,8 +71,12 @@ public class Hexapode {
 		}
 	}
 
+	/**
+	 * 
+	 * @param msg
+	 *            String der in der Console aus
+	 */
 	public static void println(String msg) {
-		System.out.println(msg);
 		console.println(msg);
 	}
 }
