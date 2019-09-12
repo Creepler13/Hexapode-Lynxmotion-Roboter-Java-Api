@@ -18,12 +18,11 @@ public class Hexapode {
 
 	final static Serial serial = SerialFactory.createInstance();
 	final static Console console = new Console();
-	private static boolean started = false;
 
-	private static void start() {
+	public Hexapode(Baud baud) {
 		try {
 			SerialConfig config = new SerialConfig();
-			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
+			config.device(SerialPort.getDefaultPort()).baud(baud).dataBits(DataBits._8).parity(Parity.NONE)
 					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
 			serial.addListener(new SerialDataEventListener() {
 				@Override
@@ -39,27 +38,19 @@ public class Hexapode {
 	/**
 	 * jkjkljk.
 	 * 
-	 * @param servo
-	 *            = Servo Controller Motor pin Nummer
+	 * @param servo      = Servo Controller Motor pin Nummer
 	 *
-	 * @param state
-	 *            = gewünschte Servo position bsp: 1500
+	 * @param state      = gewünschte Servo position bsp: 1500
 	 * 
-	 * @param time
-	 *            = Zeit bis der Servo state erreicht in ms
+	 * @param time       = Zeit bis der Servo state erreicht in ms
 	 * 
-	 * @param stopThread
-	 *            = true = stoppt den Main Thread für die zeit die der Servo bis
-	 *            [state] braucht([time]), false = motor bewegt sich thread läuft
-	 *            weiter.
+	 * @param stopThread = true = stoppt den Main Thread für die zeit die der Servo
+	 *                   bis [state] braucht([time]), false = motor bewegt sich
+	 *                   thread läuft weiter.
 	 * @return null
 	 */
 
 	public static void moveServo(int servo, int state, int time, boolean stopThread) {
-		if (!started) {
-			start();
-			started = true;
-		}
 		try {
 			if (stopThread) {
 				Thread.sleep(time);
@@ -73,8 +64,7 @@ public class Hexapode {
 
 	/**
 	 * 
-	 * @param msg
-	 *            String der in der Console aus
+	 * @param msg String der in der Console aus
 	 */
 	public static void println(String msg) {
 		console.println(msg);
