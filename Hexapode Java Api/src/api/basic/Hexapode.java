@@ -21,7 +21,13 @@ public class Hexapode {
 	final static Serial serial = SerialFactory.createInstance();
 	final static Console console = new Console();
 
-	public Hexapode() {
+	private static final Hexapode instance = new Hexapode();
+	
+	public static Hexapode getInstance() {
+		return instance;
+	}
+	
+	private Hexapode() {
 		try {
 			SerialConfig config = new SerialConfig();
 			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)

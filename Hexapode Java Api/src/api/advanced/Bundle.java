@@ -2,12 +2,14 @@ package api.advanced;
 
 import api.basic.Hexapode;
 
-public class Bundle extends Hexapode {
+public class Bundle {
 
-	String command;
-	int time;
+	private String command;
+	private int time;
+	Hexapode hexapod;
 
 	public Bundle(int time) {
+		hexapod = Hexapode.getInstance();
 		this.time = time;
 	}
 
@@ -15,22 +17,38 @@ public class Bundle extends Hexapode {
 		this.command = this.command + "#" + servo + "P" + position;
 	}
 
+	public void exec(int customTime) {
+		hexapod.serialcommand(getCommand());
+	}
+
 	public void exec() {
-		serialcommand(command + " T" + time);
+		exec(time);
 	}
 
-	public void exec(int customtime) {
-		this.time = customtime;
-		exec();
-	}
-
-	public void add(Bundle bundle) {
-		this.time = bundle.time;
-		this.command = this.command + bundle.command;
-	}
-
-	public void settime(int newtime) {
+	public void setTime(int newtime) {
 		this.time = newtime;
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	/**
+	 * Get the command currently represented by this bundle (witout time).
+	 * 
+	 * @return The raw command
+	 */
+	public String getRawCommand() {
+		return command;
+	}
+
+	/**
+	 * Get the command represented by this Bundle.
+	 * 
+	 * @return The command that will be executed by exec().
+	 */
+	public String getCommand() {
+		return command + " T" + time;
 	}
 
 }

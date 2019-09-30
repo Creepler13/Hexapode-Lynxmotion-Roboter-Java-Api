@@ -1,28 +1,34 @@
 package api.advanced;
 
 import java.util.ArrayList;
+public class Collection implements ExecutableCommands {
 
-import api.basic.Hexapode;
-
-public class Collection extends Hexapode {
-
-	ArrayList<Bundle> Bundles = new ArrayList<Bundle>();
+	ArrayList<ExecutableCommands> commands = new ArrayList<ExecutableCommands>();
 
 	public Collection() {
+		
 	}
-
-	public void exec() {
-		for (int i = 0; i < Bundles.size(); i++) {
-			serialcommand(Bundles.get(i).command + " T" + Bundles.get(i).time);
+	
+	public Collection(ExecutableCommands[] commands) {
+		for (ExecutableCommands command : commands) {
+			this.commands.add(command);
 		}
 	}
 
-	public void add(Bundle bundle) {
-		Bundles.add(bundle);
+	public void exec() {
+		for (ExecutableCommands command : commands) {
+			command.exec();
+		}
 	}
 
-	public void add(Collection collection) {
-		Bundles.addAll(collection.Bundles);
+	@Override
+	public void exec(int time) {
+		for (ExecutableCommands command : commands) {
+			command.exec(time);
+		}
 	}
 
+	public void add(ExecutableCommands commands) {
+		this.commands.add(commands);
+	}
 }
