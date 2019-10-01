@@ -2,7 +2,7 @@ package api.advanced;
 
 import api.basic.Hexapode;
 
-public class Bundle {
+public class Bundle implements ExecutableCommands{
 
 	private String command;
 	private int time;
@@ -31,6 +31,10 @@ public class Bundle {
 
 	public int getTime() {
 		return time;
+	}
+
+	public void print() {
+		System.out.println(command + "time: " + time);
 	}
 
 	/**

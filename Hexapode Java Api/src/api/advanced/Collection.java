@@ -17,7 +17,8 @@ public class Collection implements ExecutableCommands {
 
 	public void exec() {
 		for (ExecutableCommands command : commands) {
-			command.exec();
+			System.out.println(command);
+			//command.exec();
 		}
 	}
 
@@ -31,4 +32,5 @@ public class Collection implements ExecutableCommands {
 	public void add(ExecutableCommands commands) {
 		this.commands.add(commands);
 	}
+
 }
