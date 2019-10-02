@@ -43,7 +43,7 @@ public class Hexapode {
 		}
 	}
 
-	public void serialcommand(String cmd) {
+	public void serialCommand(String cmd) {
 	try {
 		serial.write(cmd + "\r");
 	} catch (IllegalStateException | IOException e) {

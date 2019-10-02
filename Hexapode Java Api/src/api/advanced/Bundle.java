@@ -16,9 +16,14 @@ public class Bundle implements ExecutableCommands {
 	public void add(int servo, int position) {
 		this.command = this.command + "#" + servo + "P" + position;
 	}
+	
+	public void remove(int servo) {
+		// TODO implement
+	}
 
 	public void exec(int customTime) {
-		hexapod.serialcommand(getCommand());
+		new Exception().printStackTrace();
+		hexapod.serialCommand(getCommand());
 	}
 
 	public void exec() {
