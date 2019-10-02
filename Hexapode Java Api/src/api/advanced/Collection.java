@@ -18,8 +18,7 @@ public class Collection implements ExecutableCommands {
 
 	public void exec() {
 		for (ExecutableCommands command : commands) {
-			System.out.println(command);
-			// command.exec();
+			command.exec();
 		}
 	}
 
