@@ -2,9 +2,9 @@ package api.advanced;
 
 import api.basic.Hexapode;
 
-public class Bundle implements ExecutableCommands{
+public class Bundle implements ExecutableCommands {
 
-	private String command;
+	private String command = "";
 	private int time;
 	Hexapode hexapod;
 
@@ -53,6 +53,16 @@ public class Bundle implements ExecutableCommands{
 	 */
 	public String getCommand() {
 		return command + " T" + time;
+	}
+
+	@Override
+	public void printTree() {
+		System.out.println(getTree());
+	}
+
+	@Override
+	public String getTree() {
+		return getCommand();
 	}
 
 }
