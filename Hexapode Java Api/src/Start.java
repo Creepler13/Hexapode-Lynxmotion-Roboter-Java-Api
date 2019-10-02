@@ -1,7 +1,6 @@
 import api.advanced.Bundle;
 import api.advanced.Collection;
 import api.advanced.ExecutableCommands;
-import api.basic.Hexapode;
 
 public class Start {
 

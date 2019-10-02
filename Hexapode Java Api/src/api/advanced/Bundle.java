@@ -22,7 +22,7 @@ public class Bundle implements ExecutableCommands {
 	}
 
 	public void exec(int customTime) {
-		new Exception().printStackTrace();
+		System.out.println("Now executing command: " + getCommand());
 		hexapod.serialCommand(getCommand());
 	}
 
