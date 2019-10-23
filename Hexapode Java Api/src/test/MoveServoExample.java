@@ -7,7 +7,7 @@ import api.basic.Hexapode;
  * 
  * @author JustAnotherJavaProgrammer
  */
-public class Example1 {
+public class MoveServoExample {
 
 	public static void main(String[] args) {
 		// Rotate the front left leg for 1 second to position 1500

@@ -124,7 +124,7 @@ public class Hexapode {
 	 * @param servo      The pin of the servo to move
 	 * @param pos        The position the servo should move to
 	 * @param timeMillis The time the servo will need to reach the targeted position
-	 * @see test.Example1
+	 * @see test.MoveServoExample
 	 */
 	public void moveServo(int servo, int pos, int timeMillis) {
 		exec("#" + servo + "P" + pos + "T" + timeMillis);
