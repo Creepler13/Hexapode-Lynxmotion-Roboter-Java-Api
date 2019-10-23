@@ -13,14 +13,16 @@ package api.advanced;
  */
 public interface ExecutableCommands {
 	/**
-	 * Execute the Command(s) using the default time
+	 * Execute the Command(s) using the default time <br>
+	 * This method does not block the {@linkplain Thread} when invoked.
 	 */
 	public void exec();
 
 	/**
-	 * Execute the Command(s) for a given time
+	 * Execute the Command(s) for a given time <br>
+	 * This method does not block the {@linkplain Thread} when invoked.
 	 * 
-	 * @param time The time in milliseconds
+	 * @param time The execution time in milliseconds
 	 */
 	public void exec(int time);
 

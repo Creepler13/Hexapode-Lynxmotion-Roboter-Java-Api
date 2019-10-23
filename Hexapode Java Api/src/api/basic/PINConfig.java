@@ -1,6 +1,47 @@
 package api.basic;
 
+/**
+ * This class contains the pin-mapping for all servos of the hexapod
+ * <p>
+ * The mapping is as follows: <br>
+ * 
+ * <pre>
+ * <code>
+ * <b>First digit:</b>
+ * Front: 1
+ * Middle: 2
+ * Back: 3
+ * 
+ * <b>Second digit:</b>
+ * Left: 0
+ * Right: 1
+ * 
+ * <b>Third digit:</b>
+ * "Hip" (leg rotation): 0
+ * "Knee" (Middle servo): 1
+ * "Foot" (lower servo): 2
+ * </code>
+ * </pre>
+ * 
+ * <h5>Example
+ * 
+ * <pre>
+ * <code>Middle right knee = 211</code>
+ * </pre>
+ * </p>
+ * 
+ * @author JustAnotherJavaProgrammer & Creepler13
+ */
 public class PINConfig {
+
+	/**
+	 * Initialize the {@link api.basic.Hexapode#PIN_MAPPING PIN_MAPPING-array} in
+	 * {@linkplain api.basic.Hexapode Hexapode.java}
+	 * 
+	 * <br>
+	 * This method is called by the constructor so it does not need to be called
+	 * manually
+	 */
 	protected static void initPINConfig() {
 		// Front left hip
 		Hexapode.PIN_MAPPING[0][0] = 29;
