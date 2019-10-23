@@ -93,10 +93,10 @@ public class Hexapode {
 		}
 		command.replaceAll(" ", "");
 		for (int i = 0; i < PIN_MAPPING.length; i++) {
-			command.replaceAll("#" + PIN_MAPPING[i][0], "#" + (-PIN_MAPPING[i][1]));
+			command.replaceAll("#" + PIN_MAPPING[i][1], "#" + (-PIN_MAPPING[i][0]));
 		}
 		for (int i = 0; i < PIN_MAPPING.length; i++) {
-			command.replaceAll("#" + (-PIN_MAPPING[i][1]), "#" + PIN_MAPPING[i][1]);
+			command.replaceAll("#" + (-PIN_MAPPING[i][0]), "#" + PIN_MAPPING[i][0]);
 		}
 		System.out.println("Executing command:\n" + command);
 		serialCommand(command);
