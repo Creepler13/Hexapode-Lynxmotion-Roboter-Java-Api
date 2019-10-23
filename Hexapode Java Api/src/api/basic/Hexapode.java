@@ -95,6 +95,7 @@ public class Hexapode {
 		for (int i = 0; i < PIN_MAPPING.length; i++) {
 			command.replaceAll("#" + (-PIN_MAPPING[i][1]), "#" + PIN_MAPPING[i][1]);
 		}
+		System.out.println("Executing command:\n" + command);
 		serialCommand(command);
 	}
 	
