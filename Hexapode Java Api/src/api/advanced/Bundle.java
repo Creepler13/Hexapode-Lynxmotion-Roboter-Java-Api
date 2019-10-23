@@ -2,11 +2,17 @@ package api.advanced;
 
 import api.basic.Hexapode;
 
+
+/**
+ * 
+ * @author fsglab-elec
+ *
+ */
 public class Bundle implements ExecutableCommands {
 
 	private String command = "";
 	private int time;
-	Hexapode hexapod;
+	private Hexapode hexapod;
 
 	public Bundle(int time) {
 		hexapod = Hexapode.getInstance();
@@ -43,7 +49,7 @@ public class Bundle implements ExecutableCommands {
 	}
 
 	/**
-	 * Get the command currently represented by this bundle (witout time).
+	 * Get the command currently represented by this bundle (without time).
 	 * 
 	 * @return The raw command
 	 */
