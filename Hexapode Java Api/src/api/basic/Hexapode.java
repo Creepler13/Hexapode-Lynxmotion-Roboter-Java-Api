@@ -93,11 +93,10 @@ public class Hexapode {
 		}
 		command.replaceAll(" ", "");
 		for (int i = 0; i < PIN_MAPPING.length; i++) {
-			System.out.println("Replace\n" + "#" + PIN_MAPPING[i][1] + "\nby\n" + "#" + (-PIN_MAPPING[i][0]));
-			command.replaceAll("#" + PIN_MAPPING[i][1], "#" + (-PIN_MAPPING[i][0]));
+			command.replace("#" + PIN_MAPPING[i][1], "#" + (-PIN_MAPPING[i][0]));
+			System.out.println(command);
 		}
 		for (int i = 0; i < PIN_MAPPING.length; i++) {
-			System.out.println("Replace nr2\n" + "#" + (-PIN_MAPPING[i][0]) + "\nby\n" + "#" + PIN_MAPPING[i][0]);
 			command.replaceAll("#" + (-PIN_MAPPING[i][0]), "#" + PIN_MAPPING[i][0]);
 		}
 		System.out.println("Executing command:\n" + command);
