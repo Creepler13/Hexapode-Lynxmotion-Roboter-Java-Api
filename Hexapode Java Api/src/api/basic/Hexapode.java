@@ -86,21 +86,32 @@ public class Hexapode {
 	 * Execute a command and apply PIN-mapping
 	 *
 	 * @param command The command to be executed
+	 * @see api.basic.Hexapode#applyPINMapping(String)
 	 */
 	public void exec(String command) {
+//		command = applyPINMapping(command);
+//		System.out.println("Executing command:\n" + command);
+		serialCommand(applyPINMapping(command));
+	}
+
+	/**
+	 * Apply PIN-mapping to a given String
+	 * 
+	 * @param command The command which PIN-mapping should be applied to
+	 * @return The command after PIN-mapping has been applied
+	 */
+	public String applyPINMapping(String command) {
+//		for (int i = 0; i < PIN_MAPPING.length; i++) {
+//			System.out.println("[ " + PIN_MAPPING[i][0] + ", " + PIN_MAPPING[i][1] + " ]");
+//		}
+		command = command.replaceAll(" ", "");
 		for (int i = 0; i < PIN_MAPPING.length; i++) {
-			System.out.println("[ " + PIN_MAPPING[i][0] + ", " + PIN_MAPPING[i][1] + " ]");
-		}
-		command.replaceAll(" ", "");
-		for (int i = 0; i < PIN_MAPPING.length; i++) {
-			command.replace("#" + PIN_MAPPING[i][1], "#" + (-PIN_MAPPING[i][0]));
-			System.out.println(command);
+			command = command.replaceAll("#" + PIN_MAPPING[i][1], "#" + (-PIN_MAPPING[i][0]));
 		}
 		for (int i = 0; i < PIN_MAPPING.length; i++) {
-			command.replaceAll("#" + (-PIN_MAPPING[i][0]), "#" + PIN_MAPPING[i][0]);
+			command = command.replaceAll("#" + (-PIN_MAPPING[i][0]), "#" + PIN_MAPPING[i][0]);
 		}
-		System.out.println("Executing command:\n" + command);
-		serialCommand(command);
+		return command;
 	}
 
 	// TODO Write to console
