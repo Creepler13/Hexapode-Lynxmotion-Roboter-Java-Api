@@ -114,5 +114,21 @@ public class Hexapode {
 		return command;
 	}
 
+	/**
+	 * Wrapper class to execute a simple command
+	 * 
+	 * <p>
+	 * To execute more complex commands use {@link api.advanced.Bundle Bundles}.
+	 * </p>
+	 * 
+	 * @param servo      The pin of the servo to move
+	 * @param pos        The position the servo should move to
+	 * @param timeMillis The time the servo will need to reach the targeted position
+	 * @see test.Example1
+	 */
+	public void moveServo(int servo, int pos, int timeMillis) {
+		exec("#" + servo + "P" + pos + "T" + timeMillis);
+	}
+
 	// TODO Write to console
 }
