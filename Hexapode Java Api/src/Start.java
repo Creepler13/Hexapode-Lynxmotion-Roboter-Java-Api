@@ -1,6 +1,7 @@
 import api.advanced.Bundle;
 import api.advanced.Collection;
 import api.advanced.ExecutableCommands;
+import api.basic.Hexapode;
 
 public class Start {
 
@@ -13,15 +14,8 @@ public class Start {
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		}
-		
-		Collection colect = new Collection();
-		Bundle bund = new Bundle(2000);
-		bund.add(5, 1500);
-		colect.add(new Collection(new ExecutableCommands[] {bund}));
-		colect.printTree();
-		
-		System.out.println("Executing collection...");
-		colect.exec();
+
+		Hexapode.getInstance().exec("#210P1000T1000");
 
 	}
 

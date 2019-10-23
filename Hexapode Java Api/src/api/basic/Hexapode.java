@@ -18,16 +18,14 @@ import com.pi4j.util.Console;
 
 /**
  * 
- * @author Creepler13 & JustAnotherJavaProgrammer
+ * Lowest-level class to control the hexapod directly by sending commands.
+ * <p>
+ * This is the base class used by all classes of this API to access the
+ * hardware. <br>
+ * There may only be one shared instance of this class. You can get it by
+ * calling {@link api.basic.Hexapode#getInstance() getInstance()} on this class.
  *
- *         Lowest-level class to control the hexapod directly by sending
- *         commands.
- *         <p>
- *         This is the base class used by all classes of this API to access the
- *         hardware. <br>
- *         There may only be one shared instance of this class. You can get it
- *         by calling {@link api.basic.Hexapode#getInstance() getInstance()} on
- *         this class.
+ * @author Creepler13 & JustAnotherJavaProgrammer
  */
 public class Hexapode {
 
@@ -37,7 +35,7 @@ public class Hexapode {
 	private final static Console console = new Console();
 
 	// WARNING: The PINS must not have IDs below 0!
-	public static final int[][] PIN_MAPPING = new int[0][0];
+	public static final int[][] PIN_MAPPING = new int[18][2];
 
 	private static final Hexapode instance = new Hexapode();
 
@@ -51,6 +49,7 @@ public class Hexapode {
 	}
 
 	private Hexapode() {
+		PINConfig.initPINConfig();
 		try {
 			SerialConfig config = new SerialConfig();
 			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
@@ -70,7 +69,7 @@ public class Hexapode {
 	 * Directly executes a command.
 	 * 
 	 * <p>
-	 * Note: This method does not use the PIN-mapping {@link}
+	 * <b>Note</b>: This method does <i>not</i> use the PIN-mapping {@link}
 	 * 
 	 * @param cmd The command to be executed
 	 * @see api.basic.Hexapode#exec Execute a command with applied PIN-mapping
