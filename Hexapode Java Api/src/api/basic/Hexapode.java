@@ -30,7 +30,7 @@ import com.pi4j.util.Console;
 public class Hexapode {
 
 	private final static Serial serial = SerialFactory.createInstance();
-	
+
 	// For future use
 	private final static Console console = new Console();
 
@@ -88,6 +88,9 @@ public class Hexapode {
 	 * @param command The command to be executed
 	 */
 	public void exec(String command) {
+		for (int i = 0; i < PIN_MAPPING.length; i++) {
+			System.out.println("[ " + PIN_MAPPING[i][0] + ", " + PIN_MAPPING[i][1] + " ]");
+		}
 		command.replaceAll(" ", "");
 		for (int i = 0; i < PIN_MAPPING.length; i++) {
 			command.replaceAll("#" + PIN_MAPPING[i][0], "#" + (-PIN_MAPPING[i][1]));
@@ -98,6 +101,6 @@ public class Hexapode {
 		System.out.println("Executing command:\n" + command);
 		serialCommand(command);
 	}
-	
+
 	// TODO Write to console
 }
