@@ -38,7 +38,7 @@ public class Example2 {
 		// Remove the instruction to rotate the leg
 		bundle.remove(100);
 		// Add an instruction to rotate the leg in the other direction instead (must be
-		// donne in two steps, see Javadoc for add)
+		// done in two steps, see Javadoc for add)
 		bundle.add(100, 0);
 		
 		// Do the same thing for the knee servo
@@ -46,7 +46,7 @@ public class Example2 {
 		bundle.add(110, 0);
 
 		// Execute this Bundle
-		// The two commands will run simultaniously for 500 milliseconds as specifified
+		// The two commands will run simultaneously for 500 milliseconds as specified
 		// by the argument
 		bundle.exec(500);
 

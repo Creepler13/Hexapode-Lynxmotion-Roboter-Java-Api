@@ -10,9 +10,14 @@ import api.basic.Hexapode;
  * instructions with multiple execution times, you can combine multiple Bundles
  * into a {@link Collection}.
  * </p>
+ * <p>
+ * Tip: There also is a convenience class to easily create Bundles for the most
+ * common use cases. It's named {@link BundleCreator}.
+ * </p>
  * 
  * @author JustAnotherJavaProgrammer & Creepler13
  * @see test.Example2
+ * @see BundleCreator
  * @see ExecutableCommands
  * @see Collection
  */
