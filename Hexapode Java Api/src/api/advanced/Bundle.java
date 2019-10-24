@@ -68,7 +68,7 @@ public class Bundle implements ExecutableCommands {
 	 */
 	public void exec(int customTime) {
 //		System.out.println("Now executing command: " + getCommand());
-		hexapod.serialCommand(getCommand());
+		hexapod.exec(getCommand());
 	}
 
 	/**
