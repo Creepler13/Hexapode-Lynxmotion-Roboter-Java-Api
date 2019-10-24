@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * A tool to combine multiple {@link ExecutableCommands} into one object, which
  * runs all contained commands in parallel.
  * 
- * @author JustAnotherJavaProgrammer & Creepler13
+ * @author JustAnotherJavaProgrammer &amp; Creepler13
  * @see test.Example4
  * @see Bundle
  */
@@ -63,14 +63,15 @@ public class Collection implements ExecutableCommands {
 	 * Add an {@link ExecutableCommands ExecutableCommand} to the commands contained
 	 * in this {@link Collection}
 	 * 
-	 * @param commands
+	 * @param command The {@linkplain ExecutableCommands ExecutableCommand} to be
+	 *                added
 	 */
-	public void add(ExecutableCommands commands) {
-		this.commands.add(commands);
+	public void add(ExecutableCommands command) {
+		this.commands.add(command);
 	};
 
 	/**
-	 * Remove the first occurence of a command equal to the one provided as an
+	 * Remove the first occurrence of a command equal to the one provided as an
 	 * argument from the collection <br>
 	 * This method is an alias of <code>commands.remove(command)</code>
 	 * 

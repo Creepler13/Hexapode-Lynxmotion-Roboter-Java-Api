@@ -23,14 +23,14 @@ package api.basic;
  * </code>
  * </pre>
  * 
- * <h5>Example
+ * <p>
+ * <b>Example</b> <br>
  * 
  * <pre>
  * <code>Middle right knee = 211</code>
  * </pre>
- * </p>
  * 
- * @author JustAnotherJavaProgrammer & Creepler13
+ * @author JustAnotherJavaProgrammer &amp; Creepler13
  */
 public class PINConfig {
 

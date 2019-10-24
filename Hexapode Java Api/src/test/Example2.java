@@ -5,7 +5,7 @@ import api.advanced.Bundle;
 /**
  * Showcasing {@link api.advanced.Bundle Bundles}
  * 
- * @author Creepler13 & JustAnotherJavaProgrammer
+ * @author Creepler13 &amp; JustAnotherJavaProgrammer
  * @see api.advanced.Bundle
  */
 public class Example2 {

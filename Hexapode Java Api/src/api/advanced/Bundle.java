@@ -15,7 +15,7 @@ import api.basic.Hexapode;
  * common use cases. It's named {@link BundleCreator}.
  * </p>
  * 
- * @author JustAnotherJavaProgrammer & Creepler13
+ * @author JustAnotherJavaProgrammer &amp; Creepler13
  * @see test.Example2
  * @see BundleCreator
  * @see ExecutableCommands
@@ -64,7 +64,7 @@ public class Bundle implements ExecutableCommands {
 	}
 
 	/**
-	 * {@inheritDoc api.advanced.ExecutableCommands#exec(int)}
+	 * {@inheritDoc }
 	 */
 	public void exec(int customTime) {
 //		System.out.println("Now executing command: " + getCommand());

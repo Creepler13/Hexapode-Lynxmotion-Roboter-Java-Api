@@ -25,7 +25,7 @@ import com.pi4j.util.Console;
  * There may only be one shared instance of this class. You can get it by
  * calling {@link api.basic.Hexapode#getInstance() getInstance()} on this class.
  *
- * @author Creepler13 & JustAnotherJavaProgrammer
+ * @author Creepler13 &amp; JustAnotherJavaProgrammer
  */
 public class Hexapode {
 

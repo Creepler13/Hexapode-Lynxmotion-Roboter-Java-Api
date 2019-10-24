@@ -5,6 +5,6 @@
  * All examples after Example1 use the features provided by this package.
  * </p>
  * 
- * @author Creepler13 & JustAnotherJavaProgrammer
+ * @author Creepler13 &amp; JustAnotherJavaProgrammer
  */
 package api.advanced;

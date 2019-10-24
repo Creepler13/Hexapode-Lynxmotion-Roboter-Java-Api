@@ -3,7 +3,7 @@ package test;
 /**
  * Showcasing {@link api.advanced.Collection Collections}
  * 
- * @author JustAnotherJavaProgrammer & Creepler13
+ * @author JustAnotherJavaProgrammer &amp; Creepler13
  * @see api.advanced.Collection
  */
 public class Example4 {
