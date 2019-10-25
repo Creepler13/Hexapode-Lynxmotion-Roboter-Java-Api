@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import api.advanced.Bundle;
 import api.advanced.Collection;
 import api.advanced.ExecutableCommands;
@@ -15,6 +17,12 @@ public class Start {
 //			e.printStackTrace();
 //		}
 
+		try {
+			Hexapode.getInstance().connectToDevServer("172.16.33.215", 4444);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Hexapode.getInstance().exec("#210P1000T1000");
 
 	}
