@@ -12,6 +12,7 @@ import static api.basic.PINConstants.*;
 public class BundleCreator {
 
 	/**
+	 * Create a bundle which moves all joints of a leg in parallel
 	 * 
 	 * @param leg  The id of the leg (e.g. 310 for the back right leg; it is the sum
 	 *             of PINConstants.BACK and PINConstants.RIGHT)

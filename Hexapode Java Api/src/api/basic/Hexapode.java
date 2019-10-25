@@ -1,6 +1,10 @@
 package api.basic;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import com.pi4j.io.gpio.exception.UnsupportedBoardType;
 import com.pi4j.io.serial.Baud;
@@ -15,6 +19,8 @@ import com.pi4j.io.serial.SerialFactory;
 import com.pi4j.io.serial.SerialPort;
 import com.pi4j.io.serial.StopBits;
 import com.pi4j.util.Console;
+
+import devServer.DevServer;
 
 /**
  * 
@@ -39,6 +45,9 @@ public class Hexapode {
 
 	private static final Hexapode instance = new Hexapode();
 
+	private boolean clientMode = false;
+	private BufferedWriter w = null;
+
 	/**
 	 * Get the shared instance of this Singleton
 	 * 
@@ -62,6 +71,8 @@ public class Hexapode {
 			serial.open(config);
 		} catch (UnsupportedBoardType | InterruptedException | IOException e) {
 			e.printStackTrace();
+			System.out.println("This host can only be used as a client!");
+			clientMode = true;
 		}
 	}
 
@@ -75,6 +86,19 @@ public class Hexapode {
 	 * @see api.basic.Hexapode#exec Execute a command with applied PIN-mapping
 	 */
 	public void serialCommand(String cmd) {
+		if (clientMode) {
+			if (w != null)
+				try {
+					w.write("s" + cmd);
+					w.newLine();
+					w.flush();
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.out.println("Your command could not be sent to the dev server. Are you connected?");
+				}
+
+			return;
+		}
 		try {
 			serial.write(cmd + "\r");
 		} catch (IllegalStateException | IOException e) {
@@ -91,7 +115,20 @@ public class Hexapode {
 	public void exec(String command) {
 //		command = applyPINMapping(command);
 //		System.out.println("Executing command:\n" + command);
-		serialCommand(applyPINMapping(command));
+		if (clientMode) {
+			if (w != null)
+				try {
+					w.write("e" + command);
+					w.newLine();
+					w.flush();
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.out.println("Your command could not be sent to the dev server. Are you connected?");
+				}
+			return;
+		} else {
+			serialCommand(applyPINMapping(command));
+		}
 	}
 
 	/**
@@ -128,6 +165,22 @@ public class Hexapode {
 	 */
 	public void moveServo(int servo, int pos, int timeMillis) {
 		exec("#" + servo + "P" + pos + "T" + timeMillis);
+	}
+
+	/**
+	 * Connect to a running {@link DevServer}
+	 * 
+	 * @param hostname The hostname of the host to connect to
+	 * @param port     The port to connect to
+	 * @throws UnknownHostException Thrown by the {@link Socket#Socket(String, int)
+	 *                              Socket contructor}
+	 * @throws IOException          Thrown by the {@link Socket#Socket(String, int)
+	 *                              Socket contructor}
+	 */
+	public void connectToDevServer(String hostname, int port) throws UnknownHostException, IOException {
+		@SuppressWarnings("resource")
+		Socket sock = new Socket(hostname, port);
+		w = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
 	}
 
 	// TODO Write to console
