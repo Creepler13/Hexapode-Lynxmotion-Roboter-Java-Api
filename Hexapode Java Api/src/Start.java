@@ -17,13 +17,19 @@ public class Start {
 //			e.printStackTrace();
 //		}
 
+		
+		
+		
+		//added getserverintance gives an intance for only the devserver
+		
+		
 		try {
-			Hexapode.getInstance().connectToDevServer("172.16.33.215", 4444);
+		Hexapode.getServerInstace().connectToDevServer("172.16.33.215", 4444);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Hexapode.getInstance().exec("#210P1000T1000");
+		//Hexapode.getInstance().exec("#210P1000T1000");
 
 	}
 

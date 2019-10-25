@@ -35,15 +35,15 @@ import devServer.DevServer;
  */
 public class Hexapode {
 
-	private final static Serial serial = SerialFactory.createInstance();
+	private static Serial serial = null;
 
 	// For future use
-	private final static Console console = new Console();
+	// private final static Console console = new Console();
 
 	// WARNING: The PINS must not have IDs below 0!
 	public static final int[][] PIN_MAPPING = new int[18][2];
 
-	private static final Hexapode instance = new Hexapode();
+	// private static final Hexapode instance = new Hexapode();
 
 	private boolean clientMode = false;
 	private BufferedWriter w = null;
@@ -54,25 +54,33 @@ public class Hexapode {
 	 * @return An instance of this class
 	 */
 	public static Hexapode getInstance() {
-		return instance;
+		return new Hexapode(false);
 	}
 
-	private Hexapode() {
+	public static Hexapode getServerInstace() {
+		return new Hexapode(true);
+	}
+
+	private Hexapode(boolean dev) {
 		PINConfig.initPINConfig();
-		try {
-			SerialConfig config = new SerialConfig();
-			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
-					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
-			serial.addListener(new SerialDataEventListener() {
-				@Override
-				public void dataReceived(SerialDataEvent event) {
-				}
-			});
-			serial.open(config);
-		} catch (UnsupportedBoardType | InterruptedException | IOException e) {
-			e.printStackTrace();
-			System.out.println("This host can only be used as a client!");
-			clientMode = true;
+		if (!dev) {
+
+			serial = SerialFactory.createInstance();
+			try {
+				SerialConfig config = new SerialConfig();
+				config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
+						.stopBits(StopBits._1).flowControl(FlowControl.NONE);
+				serial.addListener(new SerialDataEventListener() {
+					@Override
+					public void dataReceived(SerialDataEvent event) {
+					}
+				});
+				serial.open(config);
+			} catch (UnsupportedBoardType | InterruptedException | IOException e) {
+				e.printStackTrace();
+				System.out.println("This host can only be used as a client!");
+				clientMode = true;
+			}
 		}
 	}
 
