@@ -8,3 +8,4 @@ git commit -a -m "Regenerated the Javadoc"
 echo Pushing...
 git push
 echo Finished!
+stop
