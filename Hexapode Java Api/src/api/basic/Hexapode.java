@@ -57,6 +57,11 @@ public class Hexapode {
 		return new Hexapode(false);
 	}
 
+	/**
+	 * Get the shared instance of this Singleton if you want to use the DevServer
+	 * 
+	 * @return An instance of this class
+	 */
 	public static Hexapode getServerInstace() {
 		return new Hexapode(true);
 	}
