@@ -37,9 +37,6 @@ public class Hexapode {
 
 	private static Serial serial = null;
 
-	// For future use
-	private static Console console = null;
-
 	// WARNING: The PINS must not have IDs below 0!
 	public static final int[][] PIN_MAPPING = new int[18][2];
 	private static boolean CreatedPiInstance = false;
@@ -80,7 +77,6 @@ public class Hexapode {
 		if (!dev) {
 			try {
 				serial = SerialFactory.createInstance();
-				console = new Console();
 				SerialConfig config = new SerialConfig();
 				config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
 						.stopBits(StopBits._1).flowControl(FlowControl.NONE);
