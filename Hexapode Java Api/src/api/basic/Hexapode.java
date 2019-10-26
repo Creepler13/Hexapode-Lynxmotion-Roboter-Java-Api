@@ -18,7 +18,6 @@ import com.pi4j.io.serial.SerialDataEventListener;
 import com.pi4j.io.serial.SerialFactory;
 import com.pi4j.io.serial.SerialPort;
 import com.pi4j.io.serial.StopBits;
-import com.pi4j.util.Console;
 
 import devServer.DevServer;
 
@@ -37,44 +36,63 @@ public class Hexapode {
 
 	private static Serial serial = null;
 
-	// WARNING: The PINS must not have IDs below 0!
+	/**
+	 * <b>WARNING:</b> The PINS must not have IDs below 0!<br>
+	 * The array containing a list of mapped pins<br>
+	 * <p>
+	 * <code>PIN_MAPPING[index][0]</code> contains the original pin on the board and
+	 * <code>PIN_MAPPING[index][1]</code> contains an alternative pin that can be
+	 * used instead.<br>
+	 * <i>Tip:</i> You can still use the original "hardware" pin number if no other
+	 * pin is mapped to it.
+	 * 
+	 * @see PINConfig
+	 * @see PINConstants
+	 */
 	public static final int[][] PIN_MAPPING = new int[18][2];
-	private static boolean CreatedPiInstance = false;
 
 	private static Hexapode instance = null;
-	private static final Hexapode serverinstance = new Hexapode(true);
 
 	private boolean clientMode = false;
+	private Socket sock;
 	private BufferedWriter w = null;
 
 	/**
 	 * Get the shared instance of this Singleton
 	 * 
 	 * @return An instance of this class
+	 * @see Hexapode#getClient()
 	 */
 	public static Hexapode getInstance() {
-		if (!CreatedPiInstance) {
+		if (instance == null)
 			instance = new Hexapode(false);
-			CreatedPiInstance = true;
-			return instance;
-		} else {
-			return instance;
-
-		}
+		return instance;
 	}
 
 	/**
-	 * Get the shared ClientInstance of this Singleton id you want to use the Server
+	 * Like {@link Hexapode#getInstance() getInstance}, but forces the returned instance to be in client-mode<br>
+	 * <b>Note:</b> This method must be called before calling
+	 * {@link Hexapode#getInstance() getInstance()}
 	 * 
+	 * @throws IllegalStateException If getInstance has been called before and
+	 *                               already created a local (non-client) instance
+	 *                               of the Singleton
 	 * @return An instance of this class using the DevServer
+	 * @see Hexapode#getInstance()
 	 */
-	public static Hexapode getClient() {
-		return serverinstance;
+	public static Hexapode getClient() throws IllegalStateException {
+		if (instance == null) {
+			instance = new Hexapode(false);
+			return instance;
+		}
+		if (!instance.clientMode)
+			throw new IllegalStateException("getInstance has already be called!");
+		return instance;
 	}
 
-	private Hexapode(boolean dev) {
+	private Hexapode(boolean forceClient) {
 		PINConfig.initPINConfig();
-		if (!dev) {
+		if (!forceClient) {
 			try {
 				serial = SerialFactory.createInstance();
 				SerialConfig config = new SerialConfig();
@@ -92,6 +110,7 @@ public class Hexapode {
 				clientMode = true;
 			}
 		} else {
+			System.out.println("This host can now only be used as a client!");
 			clientMode = true;
 		}
 
@@ -117,7 +136,11 @@ public class Hexapode {
 					e.printStackTrace();
 					System.out.println("Your command could not be sent to the dev server. Are you connected?");
 				}
-
+			else
+				Console.box("Your device seemingly is not a hexapod.",
+						"To control a remote hexapod, please connect to a DevServer running on a hexapod.", "",
+						"If you are running this program on a hexapod, please make sure",
+						"that you have added the local Pi4J installation to the classpath (See documentation).");
 			return;
 		}
 		try {
@@ -146,6 +169,11 @@ public class Hexapode {
 					e.printStackTrace();
 					System.out.println("Your command could not be sent to the dev server. Are you connected?");
 				}
+			else
+				Console.box("Your device seemingly is not a hexapod.",
+						"To control a remote hexapod, please connect to a DevServer running on a hexapod.", "",
+						"If you are running this program on a hexapod, please make sure",
+						"that you have added the local Pi4J installation to the classpath (See documentation).");
 			return;
 		} else {
 			serialCommand(applyPINMapping(command));
@@ -193,16 +221,40 @@ public class Hexapode {
 	 * 
 	 * @param hostname The hostname of the host to connect to
 	 * @param port     The port to connect to
-	 * @throws UnknownHostException Thrown by the {@link Socket#Socket(String, int)
-	 *                              Socket contructor}
-	 * @throws IOException          Thrown by the {@link Socket#Socket(String, int)
-	 *                              Socket contructor}
+	 * @throws UnknownHostException  Thrown by the {@link Socket#Socket(String, int)
+	 *                               Socket contructor}
+	 * @throws IOException           Thrown by the {@link Socket#Socket(String, int)
+	 *                               Socket contructor}
+	 * @throws IllegalStateException If this method is called on a local
+	 *                               (non-client) instance<br>
+	 *                               <i>Tip:</i> You can force the instance to be a
+	 *                               client instance by calling
+	 *                               {@link Hexapode#getClient() getClient()} the
+	 *                               first time you want to get an instance of this
+	 *                               class.
+	 * @see Hexapode#getClient()
 	 */
-	public void connectToDevServer(String hostname, int port) throws UnknownHostException, IOException {
-		@SuppressWarnings("resource")
-		Socket sock = new Socket(hostname, port);
+	public void connectToDevServer(String hostname, int port)
+			throws UnknownHostException, IOException, IllegalStateException {
+		if (!clientMode)
+			throw new IllegalStateException("You are calling this method on a local (non-client) instance!");
+		if (w != null)
+			w.close();
+		if (sock != null)
+			sock.close();
+		sock = new Socket(hostname, port);
 		w = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
 	}
-
-	// TODO Write to console
+	
+	/**
+	 * Get a boolean whether this instance is a client and must be connected to a DevServer to work<br>
+	 * <b>Note:</b> You can not change the mode (client-mode or local-mode) of an instance once it has been created.
+	 * 
+	 * @return Whether this instance is in client-mode
+	 * @see Hexapode#getInstance()
+	 * @see Hexapode#getClient()
+	 */
+	public boolean isClient() {
+		return clientMode;
+	}
 }
