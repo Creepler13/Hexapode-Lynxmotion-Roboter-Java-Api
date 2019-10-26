@@ -37,7 +37,18 @@ public class Hexapode {
 
 	private static Serial serial = null;
 
-	// WARNING: The PINS must not have IDs below 0!
+	/**
+	 * <b>WARNING:</b> The PINS must not have IDs below 0!<br>
+	 * The array containing a list of mapped pins<br>
+	 * <p>
+	 * <code>PIN_MAPPING[index][0]</code> contains the original pin on the board and
+	 * <code>PIN_MAPPING[index][1]</code> contains an alternative pin that can be
+	 * used instead.<br>
+	 * <i>Tip:</i> You can still use the original "hardware" pin number if no other pin is mapped to it.
+	 * 
+	 * @see PINConfig
+	 * @see PINConstants
+	 */
 	public static final int[][] PIN_MAPPING = new int[18][2];
 	private static boolean CreatedPiInstance = false;
 
@@ -45,6 +56,7 @@ public class Hexapode {
 	private static final Hexapode serverinstance = new Hexapode(true);
 
 	private boolean clientMode = false;
+	private Socket sock = null;
 	private BufferedWriter w = null;
 
 	/**
@@ -117,7 +129,11 @@ public class Hexapode {
 					e.printStackTrace();
 					System.out.println("Your command could not be sent to the dev server. Are you connected?");
 				}
-
+			else
+				console.box("Your device seemingly is not a hexapod.",
+						"To control a remote hexapod, please connect to a DevServer running on a hexapod.", "",
+						"If you are running this program on a hexapod, please make sure",
+						"that you have added the local Pi4J installation to the classpath (See documentation).");
 			return;
 		}
 		try {
@@ -146,6 +162,11 @@ public class Hexapode {
 					e.printStackTrace();
 					System.out.println("Your command could not be sent to the dev server. Are you connected?");
 				}
+			else
+				console.box("Your device seemingly is not a hexapod.",
+						"To control a remote hexapod, please connect to a DevServer running on a hexapod.", "",
+						"If you are running this program on a hexapod, please make sure",
+						"that you have added the local Pi4J installation to the classpath (See documentation).");
 			return;
 		} else {
 			serialCommand(applyPINMapping(command));
@@ -199,8 +220,11 @@ public class Hexapode {
 	 *                              Socket contructor}
 	 */
 	public void connectToDevServer(String hostname, int port) throws UnknownHostException, IOException {
-		@SuppressWarnings("resource")
-		Socket sock = new Socket(hostname, port);
+		if (w != null)
+			w.close();
+		if (sock != null)
+			sock.close();
+		sock = new Socket(hostname, port);
 		w = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
 	}
 
