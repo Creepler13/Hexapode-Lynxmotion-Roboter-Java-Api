@@ -22,7 +22,7 @@ import com.pi4j.io.serial.StopBits;
 import devServer.DevServer;
 
 /**
- * 
+ *
  * Lowest-level class to control the hexapod directly by sending commands.
  * <p>
  * This is the base class used by all classes of this API to access the
@@ -45,7 +45,7 @@ public class Hexapode {
 	 * used instead.<br>
 	 * <i>Tip:</i> You can still use the original "hardware" pin number if no other
 	 * pin is mapped to it.
-	 * 
+	 *
 	 * @see PINConfig
 	 * @see PINConstants
 	 */
@@ -54,12 +54,12 @@ public class Hexapode {
 	private static Hexapode instance = null;
 
 	private boolean clientMode = false;
-	private Socket sock;
+	private Socket sock = null;
 	private BufferedWriter w = null;
 
 	/**
 	 * Get the shared instance of this Singleton
-	 * 
+	 *
 	 * @return An instance of this class
 	 * @see Hexapode#getClient()
 	 */
@@ -73,7 +73,7 @@ public class Hexapode {
 	 * Like {@link Hexapode#getInstance() getInstance}, but forces the returned instance to be in client-mode<br>
 	 * <b>Note:</b> This method must be called before calling
 	 * {@link Hexapode#getInstance() getInstance()}
-	 * 
+	 *
 	 * @throws IllegalStateException If getInstance has been called before and
 	 *                               already created a local (non-client) instance
 	 *                               of the Singleton
@@ -118,10 +118,10 @@ public class Hexapode {
 
 	/**
 	 * Directly executes a command.
-	 * 
+	 *
 	 * <p>
 	 * <b>Note</b>: This method does <i>not</i> use the PIN-mapping {@link}
-	 * 
+	 *
 	 * @param cmd The command to be executed
 	 * @see api.basic.Hexapode#exec Execute a command with applied PIN-mapping
 	 */
@@ -182,7 +182,7 @@ public class Hexapode {
 
 	/**
 	 * Apply PIN-mapping to a given String
-	 * 
+	 *
 	 * @param command The command which PIN-mapping should be applied to
 	 * @return The command after PIN-mapping has been applied
 	 */
@@ -202,11 +202,11 @@ public class Hexapode {
 
 	/**
 	 * Wrapper class to execute a simple command
-	 * 
+	 *
 	 * <p>
 	 * To execute more complex commands use {@link api.advanced.Bundle Bundles}.
 	 * </p>
-	 * 
+	 *
 	 * @param servo      The pin of the servo to move
 	 * @param pos        The position the servo should move to
 	 * @param timeMillis The time the servo will need to reach the targeted position
@@ -218,7 +218,7 @@ public class Hexapode {
 
 	/**
 	 * Connect to a running {@link DevServer}
-	 * 
+	 *
 	 * @param hostname The hostname of the host to connect to
 	 * @param port     The port to connect to
 	 * @throws UnknownHostException  Thrown by the {@link Socket#Socket(String, int)
@@ -245,11 +245,11 @@ public class Hexapode {
 		sock = new Socket(hostname, port);
 		w = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
 	}
-	
+
 	/**
 	 * Get a boolean whether this instance is a client and must be connected to a DevServer to work<br>
 	 * <b>Note:</b> You can not change the mode (client-mode or local-mode) of an instance once it has been created.
-	 * 
+	 *
 	 * @return Whether this instance is in client-mode
 	 * @see Hexapode#getInstance()
 	 * @see Hexapode#getClient()
