@@ -1,5 +1,10 @@
 package api.basic;
 
+/**
+ * A static wrapper for com.pi4j.util.Console
+ * 
+ * @author Creepler13 &amp; JustAnotherJavaProgrammer
+ */
 public class Console {
 
 	private static final com.pi4j.util.Console console = new com.pi4j.util.Console();
