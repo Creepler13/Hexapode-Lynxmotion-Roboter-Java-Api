@@ -35,15 +35,17 @@ import devServer.DevServer;
  */
 public class Hexapode {
 
-	private final static Serial serial = SerialFactory.createInstance();
+	private static Serial serial = null;
 
 	// For future use
-	private final static Console console = new Console();
+	private static Console console = null;
 
 	// WARNING: The PINS must not have IDs below 0!
 	public static final int[][] PIN_MAPPING = new int[18][2];
+	private static boolean CreatedPiInstance = false;
 
-	private static final Hexapode instance = new Hexapode();
+	private static Hexapode instance = null;
+	private static final Hexapode serverinstance = new Hexapode(true);
 
 	private boolean clientMode = false;
 	private BufferedWriter w = null;
@@ -54,26 +56,49 @@ public class Hexapode {
 	 * @return An instance of this class
 	 */
 	public static Hexapode getInstance() {
-		return instance;
+		if (!CreatedPiInstance) {
+			instance = new Hexapode(false);
+			CreatedPiInstance = true;
+			return instance;
+		} else {
+			return instance;
+
+		}
 	}
 
-	private Hexapode() {
+	/**
+	 * Get the shared ClientInstance of this Singleton id you want to use the Server
+	 * 
+	 * @return An instance of this class using the DevServer
+	 */
+	public static Hexapode getClient() {
+		return serverinstance;
+	}
+
+	private Hexapode(boolean dev) {
 		PINConfig.initPINConfig();
-		try {
-			SerialConfig config = new SerialConfig();
-			config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
-					.stopBits(StopBits._1).flowControl(FlowControl.NONE);
-			serial.addListener(new SerialDataEventListener() {
-				@Override
-				public void dataReceived(SerialDataEvent event) {
-				}
-			});
-			serial.open(config);
-		} catch (UnsupportedBoardType | InterruptedException | IOException e) {
-			e.printStackTrace();
-			System.out.println("This host can only be used as a client!");
+		if (!dev) {
+			try {
+				serial = SerialFactory.createInstance();
+				console = new Console();
+				SerialConfig config = new SerialConfig();
+				config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
+						.stopBits(StopBits._1).flowControl(FlowControl.NONE);
+				serial.addListener(new SerialDataEventListener() {
+					@Override
+					public void dataReceived(SerialDataEvent event) {
+					}
+				});
+				serial.open(config);
+			} catch (UnsupportedBoardType | InterruptedException | IOException e) {
+				e.printStackTrace();
+				System.out.println("This host can only be used as a client!");
+				clientMode = true;
+			}
+		} else {
 			clientMode = true;
 		}
+
 	}
 
 	/**

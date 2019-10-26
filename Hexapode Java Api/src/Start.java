@@ -1,8 +1,5 @@
 import java.io.IOException;
 
-import api.advanced.Bundle;
-import api.advanced.Collection;
-import api.advanced.ExecutableCommands;
 import api.basic.Hexapode;
 
 public class Start {
@@ -17,13 +14,14 @@ public class Start {
 //			e.printStackTrace();
 //		}
 
+		Hexapode.getInstance().exec("#210P1000T1000");
+		Hexapode.getInstance();
 		try {
-			Hexapode.getInstance().connectToDevServer("172.16.33.215", 4444);
+			Hexapode.getClient().connectToDevServer("172.16.33.215", 4444);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Hexapode.getInstance().exec("#210P1000T1000");
 
 	}
 
