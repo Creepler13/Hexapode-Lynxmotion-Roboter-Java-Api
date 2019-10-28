@@ -4,7 +4,7 @@ package api.advanced;
  * The interface that can be implemented to add custom elements to Collections.
  * 
  * <p>
- * This class is implemented by {@link api.advanced.Bundle Bundles}
+ * This class is implemented by {@link api.advanced.Bundle Bundles} and {@link api.advanced.Collection Collections}.
  * </p>
  * 
  * @author JustAnotherJavaProgrammer
