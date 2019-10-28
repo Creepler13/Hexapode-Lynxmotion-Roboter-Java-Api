@@ -64,28 +64,7 @@ public class Bundle implements ExecutableCommands {
 	 * @param bundle
 	 */
 	public void add(Bundle bundle) {
-		ArrayList<Integer> tmp = new ArrayList<>();
-		boolean test = true;
-		String[] servos = bundle.command.split("#");
-		System.out.println(servos[0]);
-		for (int i = 1; i < servos.length; i++) {
-			for (int j = 0; j < this.servos.size(); j++) {
-				if (servos[i].split("P")[0] != "" + this.servos.get(j)) {
-				} else {
-					test = false;
-					// ist schon in der basis benutzt worden
-				}
-			}
-			if (test) {
-				tmp.add(Integer.parseInt(servos[i].split("P")[0]));
-				tmp.add(Integer.parseInt(servos[i].split("P")[1]));
-			} else {
-				test = true;
-			}
-		}
-		for (int i = 0; i < tmp.size(); i = i + 2) {
-			this.add(tmp.get(i), tmp.get(i + 1));
-		}
+		this.command += bundle.getCommand();
 	}
 
 	/**
