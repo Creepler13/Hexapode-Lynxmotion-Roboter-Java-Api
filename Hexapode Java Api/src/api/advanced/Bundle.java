@@ -61,7 +61,7 @@ public class Bundle implements ExecutableCommands {
 	/**
 	 * Adds all instructions from the specified Bundle to this Bundle.<br>
 	 * <b>Note:</b> This method does not throw or warn you if both Bundles contain
-	 * instructions to the same servo(s).
+	 * instructions to the same servo(s).<br>
 	 * <b>Note:</b> This method retains the default execution time of the Bundle.
 	 * 
 	 * @param bundle The Bundle whose instructions should be added to this Bundle
