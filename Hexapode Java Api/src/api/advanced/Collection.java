@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * 
  * @author JustAnotherJavaProgrammer &amp; Creepler13
  * @see test.Example4
+ * @see ExecutableCommands
  * @see Bundle
  */
 public class Collection implements ExecutableCommands {
