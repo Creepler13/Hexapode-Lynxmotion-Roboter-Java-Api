@@ -43,7 +43,7 @@ public class Bundle implements ExecutableCommands {
 	}
 
 	/**
-	 * Add an instruction to a servo to the Bundle <br>
+	 * Add an instruction to a servo to the Bundle<br>
 	 * <b>Note:</b> This method does not throw or warn you if this Bundle already
 	 * contains an instruction to this servo.<br>
 	 * <b>Note:</b> This method does not throw or warn you if the targeted position
@@ -51,6 +51,7 @@ public class Bundle implements ExecutableCommands {
 	 * 
 	 * @param servo    The pin of the servo which should be added to the Bundle
 	 * @param position The targeted position of the servo ranging from 0 to 1500
+	 * @see Bundle#add(Bundle)
 	 */
 	public void add(int servo, int position) {
 		this.command = this.command + "#" + servo + "P" + position;
@@ -58,13 +59,16 @@ public class Bundle implements ExecutableCommands {
 	}
 
 	/**
+	 * Adds all instructions from the specified Bundle to this Bundle.<br>
+	 * <b>Note:</b> This method does not throw or warn you if both Bundles contain
+	 * instructions to the same servo(s).
+	 * <b>Note:</b> This method retains the default execution time of the Bundle.
 	 * 
-	 * add a bundle to another bundle
-	 * 
-	 * @param bundle
+	 * @param bundle The Bundle whose instructions should be added to this Bundle
+	 * @see Bundle#add(int, int)
 	 */
 	public void add(Bundle bundle) {
-		this.command += bundle.getCommand();
+		this.command += bundle.getRawCommand();
 	}
 
 	/**
@@ -129,7 +133,7 @@ public class Bundle implements ExecutableCommands {
 	/**
 	 * Get the command represented by this Bundle.
 	 * 
-	 * @return The command that will be executed by exec().
+	 * @return The command that will be executed by {@link Bundle#exec() exec()}.
 	 */
 	public String getCommand() {
 		return command + " T" + time;
