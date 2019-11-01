@@ -230,6 +230,11 @@ public class Hexapode {
 	 * @see Hexapode#getClient()
 	 */
 
+	public boolean isClient() {
+		return clientMode;
+	}
+	
+	
 	private void sendToServer(String command) {
 		if (w != null)
 			try {
@@ -247,9 +252,5 @@ public class Hexapode {
 					"If you are running this program on a hexapod, please make sure",
 					"that you have added the local Pi4J installation to the classpath (See documentation).");
 		return;
-	}
-
-	public boolean isClient() {
-		return clientMode;
 	}
 }
