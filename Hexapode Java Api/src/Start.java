@@ -1,7 +1,6 @@
 import java.io.IOException;
 
 import api.advanced.Bundle;
-import api.advanced.Collection;
 import api.basic.Hexapode;
 
 public class Start {

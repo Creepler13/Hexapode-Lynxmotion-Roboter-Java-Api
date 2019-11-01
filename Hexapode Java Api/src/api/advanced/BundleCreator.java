@@ -1,6 +1,8 @@
 package api.advanced;
 
-import static api.basic.PINConstants.*;
+import static api.basic.PINConstants.FOOT;
+import static api.basic.PINConstants.HIP;
+import static api.basic.PINConstants.KNEE;
 
 /**
  * A convenience class to create {@linkplain Bundle Bundles} for the most common

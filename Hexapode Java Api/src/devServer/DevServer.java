@@ -3,7 +3,7 @@ package devServer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
+import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -34,7 +34,7 @@ public class DevServer {
 	private DevServer() throws IOException {
 		serverSocket = new ServerSocket(PORT);
 		while (true) {
-			System.out.println("Now waiting for incoming connections at " + InetAddress.getLocalHost().getHostAddress() + " on port "
+			System.out.println("Now waiting for incoming connections at " + Inet4Address.getLocalHost().getHostAddress() + " on port "
 					+ serverSocket.getLocalPort());
 			Socket s = null;
 			try {

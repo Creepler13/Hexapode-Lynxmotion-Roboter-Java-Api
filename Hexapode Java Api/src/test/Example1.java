@@ -1,10 +1,12 @@
 package test;
 
+// Import the constants from PINConstants to use them without "PINConstants."
+import static api.basic.PINConstants.FOOT;
+import static api.basic.PINConstants.FRONT;
+import static api.basic.PINConstants.RIGHT;
+
 import api.basic.Hexapode;
 // import api.basic.PINConstants;
-
-// Import the constants from PINConstants to use them without "PINConstants."
-import static api.basic.PINConstants.*;
 
 /**
  * Move a leg
