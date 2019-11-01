@@ -4,8 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.Collections;
+import java.util.Enumeration;
 
 import api.basic.Hexapode;
 
@@ -34,8 +39,8 @@ public class DevServer {
 	private DevServer() throws IOException {
 		serverSocket = new ServerSocket(PORT);
 		while (true) {
-			System.out.println("Now waiting for incoming connections at " + Inet4Address.getLocalHost().getHostAddress() + " on port "
-					+ serverSocket.getLocalPort());
+			System.out.println("Now waiting for incoming connections at " + getIPAddr().getHostAddress()
+					+ " on port " + serverSocket.getLocalPort());
 			Socket s = null;
 			try {
 				s = serverSocket.accept();
@@ -66,11 +71,23 @@ public class DevServer {
 				e.printStackTrace();
 				System.out.println("Connection closed");
 			}
-			if(!s.isClosed()) {
+			if (!s.isClosed()) {
 				s.close();
 				System.out.println("Connection closed");
 			}
 		}
+	}
+
+	public InetAddress getIPAddr() throws SocketException {
+		Enumeration<NetworkInterface> ifs = NetworkInterface.getNetworkInterfaces();
+		for (NetworkInterface intf : Collections.list(ifs)) {
+			Enumeration<InetAddress> addrs = intf.getInetAddresses();
+			for (InetAddress addr : Collections.list(addrs)) {
+				if (!addr.getHostAddress().startsWith("0.") && !addr.getHostAddress().startsWith("127"))
+					return addr;
+			}
+		}
+		return null;
 	}
 
 }
