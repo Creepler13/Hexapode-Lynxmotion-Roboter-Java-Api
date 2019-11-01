@@ -70,7 +70,8 @@ public class Hexapode {
 	}
 
 	/**
-	 * Like {@link Hexapode#getInstance() getInstance}, but forces the returned instance to be in client-mode<br>
+	 * Like {@link Hexapode#getInstance() getInstance}, but forces the returned
+	 * instance to be in client-mode<br>
 	 * <b>Note:</b> This method must be called before calling
 	 * {@link Hexapode#getInstance() getInstance()}
 	 *
@@ -125,26 +126,12 @@ public class Hexapode {
 	 * @param cmd The command to be executed
 	 * @see api.basic.Hexapode#exec Execute a command with applied PIN-mapping
 	 */
-	public void serialCommand(String cmd) {
+	public void serialCommand(String command) {
 		if (clientMode) {
-			if (w != null)
-				try {
-					w.write("s" + cmd);
-					w.newLine();
-					w.flush();
-				} catch (IOException e) {
-					e.printStackTrace();
-					System.out.println("Your command could not be sent to the dev server. Are you connected?");
-				}
-			else
-				Console.box("Your device seemingly is not a hexapod.",
-						"To control a remote hexapod, please connect to a DevServer running on a hexapod.", "",
-						"If you are running this program on a hexapod, please make sure",
-						"that you have added the local Pi4J installation to the classpath (See documentation).");
-			return;
+			sendToServer(command);
 		}
 		try {
-			serial.write(cmd + "\r");
+			serial.write(command + "\r");
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
@@ -160,21 +147,7 @@ public class Hexapode {
 //		command = applyPINMapping(command);
 //		System.out.println("Executing command:\n" + command);
 		if (clientMode) {
-			if (w != null)
-				try {
-					w.write("e" + command);
-					w.newLine();
-					w.flush();
-				} catch (IOException e) {
-					e.printStackTrace();
-					System.out.println("Your command could not be sent to the dev server. Are you connected?");
-				}
-			else
-				Console.box("Your device seemingly is not a hexapod.",
-						"To control a remote hexapod, please connect to a DevServer running on a hexapod.", "",
-						"If you are running this program on a hexapod, please make sure",
-						"that you have added the local Pi4J installation to the classpath (See documentation).");
-			return;
+			sendToServer(command);
 		} else {
 			serialCommand(applyPINMapping(command));
 		}
@@ -247,13 +220,35 @@ public class Hexapode {
 	}
 
 	/**
-	 * Get a boolean whether this instance is a client and must be connected to a DevServer to work<br>
-	 * <b>Note:</b> You can not change the mode (client-mode or local-mode) of an instance once it has been created.
+	 * Get a boolean whether this instance is a client and must be connected to a
+	 * DevServer to work<br>
+	 * <b>Note:</b> You can not change the mode (client-mode or local-mode) of an
+	 * instance once it has been created.
 	 *
 	 * @return Whether this instance is in client-mode
 	 * @see Hexapode#getInstance()
 	 * @see Hexapode#getClient()
 	 */
+
+	private void sendToServer(String command) {
+		if (w != null)
+			try {
+				w.write("e" + command);
+				w.newLine();
+				w.flush();
+				System.out.println("Send command : " + command + " to the Server.");
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.out.println("Your command could not be sent to the dev server. Are you connected?");
+			}
+		else
+			Console.box("Your device seemingly is not a hexapod.",
+					"To control a remote hexapod, please connect to a DevServer running on a hexapod.", "",
+					"If you are running this program on a hexapod, please make sure",
+					"that you have added the local Pi4J installation to the classpath (See documentation).");
+		return;
+	}
+
 	public boolean isClient() {
 		return clientMode;
 	}
