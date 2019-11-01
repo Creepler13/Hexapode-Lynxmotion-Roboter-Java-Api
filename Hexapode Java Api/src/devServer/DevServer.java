@@ -34,7 +34,7 @@ public class DevServer {
 	private DevServer() throws IOException {
 		serverSocket = new ServerSocket(PORT);
 		while (true) {
-			System.out.println("Now waiting for incoming connections at " + InetAddress.getLocalHost().getHostName() + " on port "
+			System.out.println("Now waiting for incoming connections at " + InetAddress.getLocalHost().getHostAddress() + " on port "
 					+ serverSocket.getLocalPort());
 			Socket s = null;
 			try {
