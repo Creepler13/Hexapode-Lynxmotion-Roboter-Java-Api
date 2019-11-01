@@ -39,8 +39,8 @@ public class DevServer {
 	private DevServer() throws IOException {
 		serverSocket = new ServerSocket(PORT);
 		while (true) {
-			System.out.println("Now waiting for incoming connections at " + getIPAddr().getHostAddress()
-					+ " on port " + serverSocket.getLocalPort());
+			System.out.println("Now waiting for incoming connections at " + getIPAddr().getHostAddress() + " on port "
+					+ serverSocket.getLocalPort());
 			Socket s = null;
 			try {
 				s = serverSocket.accept();
@@ -83,7 +83,8 @@ public class DevServer {
 		for (NetworkInterface intf : Collections.list(ifs)) {
 			Enumeration<InetAddress> addrs = intf.getInetAddresses();
 			for (InetAddress addr : Collections.list(addrs)) {
-				if (!addr.getHostAddress().startsWith("0.") && !addr.getHostAddress().startsWith("127"))
+				if (!addr.isAnyLocalAddress() && addr.isLinkLocalAddress())
+//				if (!addr.getHostAddress().startsWith("0.") && !addr.getHostAddress().startsWith("127"))
 					return addr;
 			}
 		}
