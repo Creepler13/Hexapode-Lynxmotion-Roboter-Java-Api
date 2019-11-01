@@ -82,7 +82,7 @@ public class Hexapode {
 	 */
 	public static Hexapode getClient() throws IllegalStateException {
 		if (instance == null) {
-			instance = new Hexapode(false);
+			instance = new Hexapode(true);
 			return instance;
 		}
 		if (!instance.clientMode)

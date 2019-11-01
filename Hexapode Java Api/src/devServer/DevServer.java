@@ -33,7 +33,8 @@ public class DevServer {
 	private DevServer() throws IOException {
 		serverSocket = new ServerSocket(PORT);
 		while (true) {
-			System.out.println("Now waiting for incoming connections");
+			System.out.println("Now waiting for incoming connections at " + serverSocket.getInetAddress() + " on port "
+					+ serverSocket.getLocalPort());
 			Socket s = null;
 			try {
 				s = serverSocket.accept();
@@ -47,9 +48,13 @@ public class DevServer {
 				while (s.isConnected() && !s.isClosed()) {
 					String line = r.readLine();
 					if (line.startsWith("e")) {
-						hexapode.exec(line.substring(1));
+						line = line.substring(1);
+						System.out.println("Executing command (pin-mapping enabled): " + line);
+						hexapode.exec(line);
 					} else if (line.startsWith("s")) {
-						hexapode.serialCommand(line.substring(1));
+						line = line.substring(1);
+						System.out.println("Executing command (pin-mapping disabled): " + line);
+						hexapode.serialCommand(line);
 					}
 				}
 			} catch (IOException e) {
