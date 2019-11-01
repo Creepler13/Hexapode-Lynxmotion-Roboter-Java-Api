@@ -14,11 +14,11 @@ public class Start {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Bundle bundle = new Bundle(1000);
-		bundle.add(202, 1500);
-		bundle.add(300, 400);
+		Bundle bundle = new Bundle(3000);
+		bundle.add(202, 0);
+		bundle.add(300, 1500);
 		Bundle bundle2 = new Bundle(2000);
-		bundle2.add(110, 1000);
+		bundle2.add(110, 0);
 
 		bundle.add(bundle2);
 		
