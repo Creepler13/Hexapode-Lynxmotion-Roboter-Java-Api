@@ -83,8 +83,9 @@ public class DevServer {
 		for (NetworkInterface intf : Collections.list(ifs)) {
 			Enumeration<InetAddress> addrs = intf.getInetAddresses();
 			for (InetAddress addr : Collections.list(addrs)) {
-				if (!addr.isAnyLocalAddress() && addr.isLinkLocalAddress())
-//				if (!addr.getHostAddress().startsWith("0.") && !addr.getHostAddress().startsWith("127"))
+//				System.out.println(addr.getHostAddress());
+				if (!addr.getHostAddress().startsWith("0.") && !addr.getHostAddress().startsWith("127")
+						&& !addr.getHostAddress().contains(":"))
 					return addr;
 			}
 		}
