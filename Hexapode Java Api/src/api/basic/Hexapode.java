@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import com.pi4j.io.gpio.exception.UnsupportedBoardType;
 import com.pi4j.io.serial.Baud;
@@ -50,7 +49,7 @@ public class Hexapode {
 	 * @see PINConfig
 	 * @see PINConstants
 	 */
-	public static final int[][] PIN_MAPPING = new int[18][2];
+	public static final int[][] PIN_MAPPING = new int[18][4];
 
 	private static Hexapode instance = null;
 
@@ -129,7 +128,7 @@ public class Hexapode {
 	 */
 	public void serialCommand(String command) {
 		if (clientMode) {
-			sendToServer(command);
+			sendToServer(command, "s");
 		}
 		try {
 			serial.write(command + "\r");
@@ -148,9 +147,9 @@ public class Hexapode {
 //		command = applyPINMapping(command);
 //		System.out.println("Executing command:\n" + command);
 		if (clientMode) {
-			sendToServer(command);
+			sendToServer(command, "e");
 		} else {
-			serialCommand(applyPINMapping(command));
+			serialCommand(applyPINMapping(applyPositionMapping(command)));
 		}
 	}
 
@@ -172,6 +171,12 @@ public class Hexapode {
 		for (int i = 0; i < PIN_MAPPING.length; i++) {
 			command = command.replaceAll("#" + (-PIN_MAPPING[i][0]), "#" + PIN_MAPPING[i][0]);
 		}
+		return command;
+	}
+	
+	public String applyPositionMapping(String command) {
+		command = command.replaceAll(" ", "");
+		
 		return command;
 	}
 
@@ -236,10 +241,10 @@ public class Hexapode {
 		return clientMode;
 	}
 
-	private void sendToServer(String command) {
+	private void sendToServer(String command, String prefix) {
 		if (w != null)
 			try {
-				w.write("e" + command);
+				w.write(prefix + command);
 				w.newLine();
 				w.flush();
 				System.out.println("Send command : " + command + " to the Server.");
