@@ -14,12 +14,12 @@ public class Start {
 			e.printStackTrace();
 		}
 		Bundle bundle = new Bundle(2000);
-		bundle.add(202, 500);
-		bundle.add(301, 1500);
-		Bundle bundle2 = new Bundle(2000);
-		bundle2.add(302, 1500);
+		bundle.add(302, 0);
+		bundle.add(312, 0);
+//		Bundle bundle2 = new Bundle(2000);
+//		bundle2.add(302, 1500);
 
-		bundle.add(bundle2);
+//		bundle.add(bundle2);
 		
 		System.out.println(bundle.getCommand());
 		bundle.exec();
