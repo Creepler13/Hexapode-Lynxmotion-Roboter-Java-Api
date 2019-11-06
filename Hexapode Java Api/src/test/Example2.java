@@ -22,6 +22,10 @@ public class Example2 {
 		// this bundle is executed
 		bundle.add(110, 1500);
 		// Tip: You can add as many servos as you like
+		
+		//Merge two Bundles (all command will run with the Time of here:"bundle")
+		Bundle bundle2 = new Bundle(2000);
+		bundle.add(bundle2);
 
 		// Execute this Bundle
 		// The two commands added to this Bundle run for 1 second as defined in the

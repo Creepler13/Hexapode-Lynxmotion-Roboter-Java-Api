@@ -12,7 +12,6 @@ import api.advanced.Collection;
 public class Example4 {
 
 	public static void main(String[] args) {
-		// TODO write an example, showcasing Collections
 
 		// We already know how to work with Bundles ...
 
@@ -33,6 +32,12 @@ public class Example4 {
 
 		//You can also run them all with the same time
 		collection.exec(1500);
+		
+		//See whats in your Collection
+		collection.printTree();
+		
+		//remove a Bundle or Collection from your Collection
+		collection.remove(bundle1);
 		
 	}
 
