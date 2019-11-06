@@ -105,17 +105,6 @@ public class PINConfig {
 
 	}
 
-	public static final int HIP_MIN = 625;
-	public static final int HIP_MAX = 2450;
-	public static final int HIP_DISTANCE = (HIP_MAX - HIP_MIN) / 1500;
-	
-	public static final int KNEE_MIN = 625;
-	public static final int KNEE_MAX = 2450;
-	public static final int KNEE_DISTANCE = (HIP_MAX - HIP_MIN) / 1500;
-	
-	public static final int FOOT_MIN = 625;
-	public static final int FOOT_MAX = 2450;
-	public static final int FOOT_DISTANCE = (HIP_MAX - HIP_MIN) / 1500;
 	
 	
 

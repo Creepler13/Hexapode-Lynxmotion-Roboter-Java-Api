@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import com.pi4j.io.gpio.exception.UnsupportedBoardType;
 import com.pi4j.io.serial.Baud;
@@ -147,21 +148,13 @@ public class Hexapode {
 //		command = applyPINMapping(command);
 //		System.out.println("Executing command:\n" + command);
 		if (clientMode) {
-			sendToServer(applyPo(command));
+			sendToServer(command);
 		} else {
 			serialCommand(applyPINMapping(command));
 		}
 	}
 
-	
-	public String applyPo(String command) {
-		System.out.println(command.split("P")[1]);
-		return command;
-	}
-	
-	
-	
-	
+
 	/**
 	 * Apply PIN-mapping to a given String
 	 *
@@ -242,8 +235,7 @@ public class Hexapode {
 	public boolean isClient() {
 		return clientMode;
 	}
-	
-	
+
 	private void sendToServer(String command) {
 		if (w != null)
 			try {
