@@ -10,6 +10,8 @@ public class Example4 {
 
 	public static void main(String[] args) {
 		// TODO write an example, showcasing Collections
+		
+		// We already know how to 
 	}
 
 }
