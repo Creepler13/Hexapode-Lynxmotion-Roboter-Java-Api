@@ -147,12 +147,21 @@ public class Hexapode {
 //		command = applyPINMapping(command);
 //		System.out.println("Executing command:\n" + command);
 		if (clientMode) {
-			sendToServer(command);
+			sendToServer(applyPo(command));
 		} else {
 			serialCommand(applyPINMapping(command));
 		}
 	}
 
+	
+	public String applyPo(String command) {
+		System.out.println(command.split("P")[1]);
+		return command;
+	}
+	
+	
+	
+	
 	/**
 	 * Apply PIN-mapping to a given String
 	 *
