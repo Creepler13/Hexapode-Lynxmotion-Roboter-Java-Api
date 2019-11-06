@@ -24,7 +24,11 @@ public class Example1 {
 		// Javadoc for PINConfig
 		// And if you just want to quickly create a working instruction, you can also
 		// use PINConstants to generate the correct PIN number:
+		
+		
 		Hexapode.getInstance().moveServo(FRONT + RIGHT + FOOT, 1500, 2000);
+		
+		
 		// As you might have guessed, this moves the "foot" (lowest joint of the leg) of
 		// the front right leg to position 1500 for 2 seconds (1000 milliseconds = 1
 		// second).
