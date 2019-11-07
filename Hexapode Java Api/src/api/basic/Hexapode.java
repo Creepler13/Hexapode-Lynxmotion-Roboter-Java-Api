@@ -129,9 +129,10 @@ public class Hexapode {
 	 * Directly executes a command.
 	 *
 	 * <p>
-	 * <b>Note</b>: This method does <i>not</i> use the PIN-mapping {@link}
+	 * <b>Note</b>: This method does <i>not</i> use the {@linkplain PINConfig
+	 * PIN-mapping}
 	 *
-	 * @param cmd The command to be executed
+	 * @param command The command to be executed
 	 * @see api.basic.Hexapode#exec Execute a command with applied PIN-mapping
 	 */
 	public void serialCommand(String command) {
