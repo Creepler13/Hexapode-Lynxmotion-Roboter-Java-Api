@@ -2,6 +2,7 @@ package test;
 
 import api.advanced.Bundle;
 import api.advanced.BundleCreator;
+import api.basic.PINConstants;
 
 /**
  * Showcasing {@link api.advanced.BundleCreator BundleCreator}
@@ -20,8 +21,8 @@ public class Example3 {
 		// the third value is the position the knee will move to. here: 1500
 		// the fourth value is the position the foot will move to. here: 0
 		// the fifth value is the time the servos need to reach the positions. here: 500
-		Bundle bundle = BundleCreator.moveLeg(100, 1000, 1500, 0, 500);
-		
+		Bundle bundle = BundleCreator.moveLeg(PINConstants.FRONT + PINConstants.LEFT, 1000, 1500, 0, 500);
+		bundle.exec();
 	}
 
 }
