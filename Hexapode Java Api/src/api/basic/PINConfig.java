@@ -1,5 +1,12 @@
 package api.basic;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
 /**
  * This class contains the pin-mapping for all servos of the hexapod
  * <p>
@@ -139,6 +146,39 @@ public class PINConfig {
 		Hexapode.PIN_MAPPING[17][2] = 525;
 		Hexapode.PIN_MAPPING[17][3] = 1500 / (2450 - 525);
 
+	}
+
+	private static final String positionMapLocation = "pinMap.conf";
+
+	public static void loadPositionMap() {
+		System.out.println("Looking for a pin map...");
+		if (Files.exists(Paths.get(positionMapLocation))) {
+			System.out.println("Pin map found!\nLoading pin map...");
+			try {
+				List<String> map = Files.readAllLines(Paths.get(positionMapLocation));
+				for (int i = 0; i < map.size(); i++) {
+					Hexapode.PIN_MAPPING[i / 4][i % 4] = Integer.parseInt(map.get(i));
+				}
+				System.out.println("Pin map loaded!");
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.out.println("An error occurred while loading the pin map.\nUsing default values insted");
+			}
+		} else {
+			System.out.print(
+					"No pin map was found in your current directory! Would you like to continue with default values? (y/n)");
+			try {
+				BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
+				if (r.readLine().equalsIgnoreCase("y")) {
+					r.close();
+					System.out.println("Using default values...");
+					return;
+				}
+				// TODO config setup assistant
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

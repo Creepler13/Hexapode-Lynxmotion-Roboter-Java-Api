@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 
 import com.pi4j.io.gpio.exception.UnsupportedBoardType;
 import com.pi4j.io.serial.Baud;
@@ -102,6 +103,11 @@ public class Hexapode {
 				serial.addListener(new SerialDataEventListener() {
 					@Override
 					public void dataReceived(SerialDataEvent event) {
+						try {
+							System.out.println(event.getString(StandardCharsets.UTF_8));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				});
 				serial.open(config);
@@ -176,7 +182,10 @@ public class Hexapode {
 	
 	public String applyPositionMapping(String command) {
 		command = command.replaceAll(" ", "");
-		
+		String[] instructions = command.split("[#|T]");
+		for(int i = 0; i < instructions.length; i++) {
+			// TODO split even further and replace values
+		}
 		return command;
 	}
 
