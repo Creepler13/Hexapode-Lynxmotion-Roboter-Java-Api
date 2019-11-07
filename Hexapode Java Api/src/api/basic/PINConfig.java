@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
+
+import api.advanced.BundleCreator;
 
 /**
  * This class contains the pin-mapping for all servos of the hexapod
@@ -50,6 +53,8 @@ public class PINConfig {
 	 * manually
 	 */
 	protected static void initPINConfig() {
+		// Initializing default values
+
 		// Front left hip
 		Hexapode.PIN_MAPPING[0][0] = 29;
 		Hexapode.PIN_MAPPING[0][1] = 100;
@@ -146,10 +151,16 @@ public class PINConfig {
 		Hexapode.PIN_MAPPING[17][2] = 525;
 		Hexapode.PIN_MAPPING[17][3] = 1500 / (2450 - 525);
 
+		// Overwriting defaults with values from the config file
+		loadPositionMap();
 	}
 
 	private static final String positionMapLocation = "pinMap.conf";
 
+	/**
+	 * Load the position map from a configuration file or ask if a wizard should be
+	 * started to create one
+	 */
 	public static void loadPositionMap() {
 		System.out.println("Looking for a pin map...");
 		if (Files.exists(Paths.get(positionMapLocation))) {
@@ -166,7 +177,7 @@ public class PINConfig {
 			}
 		} else {
 			System.out.print(
-					"No pin map was found in your current directory! Would you like to continue with default values? (y/n)");
+					"No pin map was found in your current directory! Would you like to continue with default values? (y/n) : ");
 			try {
 				BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
 				if (r.readLine().equalsIgnoreCase("y")) {
@@ -174,10 +185,97 @@ public class PINConfig {
 					System.out.println("Using default values...");
 					return;
 				}
-				// TODO config setup assistant
+				while (true) {
+					Console.clearScreen();
+					Console.box(
+							"Hexapod calibration wizard\nAnswer the questions below to create a configuration file\n"
+									+ "(Answers in brackets are default values)");
+					Console.emptyLine();
+					System.out.println("--- Please enter the physical pin id corresponding to the servo ---");
+					for (int i = 0; i < Hexapode.PIN_MAPPING.length; i++) {
+						String fmb = "Unknown";
+						switch (i / 6) {
+						case 0:
+							fmb = "Front";
+							break;
+						case 1:
+							fmb = "Middle";
+							break;
+						case 2:
+							fmb = "Back";
+						}
+						String hkf = "unknown";
+						switch (i % 3) {
+						case 0:
+							hkf = "hip";
+							break;
+						case 1:
+							hkf = "knee";
+							break;
+						case 2:
+							hkf = "foot";
+						}
+						while (true) {
+							System.out.print(fmb + " " + ((i / 3) % 2 == 0 ? "left" : "right") + " " + hkf + " ("
+									+ Hexapode.PIN_MAPPING[i][0] + ") : ");
+							String s = r.readLine();
+							if (s.strip().isEmpty())
+								break;
+							try {
+								Hexapode.PIN_MAPPING[i][0] = Integer.parseInt(s);
+								break;
+							} catch (NumberFormatException e) {
+								System.out.println("Please enter a valid (integer) number!");
+							}
+						}
+					}
+					System.out.print("Is the data entered above correct? (y/n) : ");
+					if (r.readLine().toLowerCase().equals("y"))
+						break;
+				}
+				BundleCreator.moveAllLegs(0, 0, 0, 500).exec();
+				Console.clearScreen();
+				Console.box("Hexapod calibration wizard\nCalibrating the servos");
+				Console.emptyLine();
+				System.out.print("Are all motors at the same position? (y/n) : ");
+				if (!r.readLine().toLowerCase().equals("y")) {
+					System.out.println("Manual calibration required!");
+				}
+				savePositionMap();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	/**
+	 * Save the current configuration to the configuration file<br>
+	 * <b>Note:</b> The old config file is overwritten if it already existed
+	 */
+	public static void savePositionMap() {
+		System.out.println("Saving the configuration file...");
+		StringBuilder strBuilder = new StringBuilder();
+		for (int i = 0; i < Hexapode.PIN_MAPPING.length; i++) {
+			for (int j = 0; j < Hexapode.PIN_MAPPING[i].length; i++) {
+				strBuilder.append(Hexapode.PIN_MAPPING[i][j]);
+				if (i < Hexapode.PIN_MAPPING.length - 1 && j < Hexapode.PIN_MAPPING[i].length - 1)
+					strBuilder.append("\n");
+			}
+		}
+		try {
+			Files.writeString(Paths.get(positionMapLocation), strBuilder.toString(), StandardOpenOption.SYNC,
+					StandardOpenOption.TRUNCATE_EXISTING);
+			System.out.println("Your settings have been saved!");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("The operation failed!");
+		}
+		System.out.print("Press ENTER to continue...");
+		try {
+			new BufferedReader(new InputStreamReader(System.in)).readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("An error occurred! Continuing automatically...");
 		}
 	}
 

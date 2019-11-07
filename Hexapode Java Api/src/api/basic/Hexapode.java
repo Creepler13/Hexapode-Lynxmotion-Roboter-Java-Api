@@ -93,7 +93,7 @@ public class Hexapode {
 	}
 
 	private Hexapode(boolean forceClient) {
-		PINConfig.initPINConfig();
+
 		if (!forceClient) {
 			try {
 				serial = SerialFactory.createInstance();
@@ -104,13 +104,15 @@ public class Hexapode {
 					@Override
 					public void dataReceived(SerialDataEvent event) {
 						try {
-							System.out.println(event.getString(StandardCharsets.UTF_8));
+							System.out.println("--- Start of serial input ---\n"
+									+ event.getString(StandardCharsets.UTF_8) + "\n--- End of serial input ---");
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
 					}
 				});
 				serial.open(config);
+				PINConfig.initPINConfig();
 			} catch (UnsupportedBoardType | InterruptedException | IOException e) {
 				e.printStackTrace();
 				System.out.println("This host can only be used as a client!");
@@ -159,12 +161,11 @@ public class Hexapode {
 		}
 	}
 
-
 	/**
-	 * Apply PIN-mapping to a given String
+	 * Apply pin-mapping to a given String
 	 *
-	 * @param command The command which PIN-mapping should be applied to
-	 * @return The command after PIN-mapping has been applied
+	 * @param command The command which pin-mapping should be applied to
+	 * @return The command after pin-mapping has been applied
 	 */
 	public String applyPINMapping(String command) {
 //		for (int i = 0; i < PIN_MAPPING.length; i++) {
@@ -179,13 +180,31 @@ public class Hexapode {
 		}
 		return command;
 	}
-	
+
+	/**
+	 * Apply position-mapping to a given String <br>
+	 * (Scale the positions of legs as defined in the pinConfig file)
+	 *
+	 * @param command The command which position-mapping should be applied to
+	 * @return The command after position-mapping has been applied
+	 */
 	public String applyPositionMapping(String command) {
 		command = command.replaceAll(" ", "");
 		String[] instructions = command.split("[#|T]");
-		for(int i = 0; i < instructions.length; i++) {
-			// TODO split even further and replace values
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < instructions.length - 1; i++) {
+			String[] args = instructions[i].split("P");
+			result.append("#").append(args[0]);
+			int[] map = null;
+			for (int[] pinMap : PIN_MAPPING) {
+				if (pinMap[1] == Integer.parseInt(args[0])) {
+					map = pinMap;
+					break;
+				}
+			}
+			result.append("P").append((Integer.parseInt(args[1]) * map[3]) + map[2]);
 		}
+		result.append("T").append(instructions[instructions.length - 1]);
 		return command;
 	}
 

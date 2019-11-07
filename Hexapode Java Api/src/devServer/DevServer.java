@@ -77,6 +77,13 @@ public class DevServer {
 		}
 	}
 
+	/**
+	 * Get the public IP-address in the local network
+	 * 
+	 * @return The device's {@link InetAddress} in the local network
+	 * @throws SocketException Thrown by
+	 *                         {@link NetworkInterface#getNetworkInterfaces()}
+	 */
 	public InetAddress getIPAddr() throws SocketException {
 		Enumeration<NetworkInterface> ifs = NetworkInterface.getNetworkInterfaces();
 		for (NetworkInterface intf : Collections.list(ifs)) {
