@@ -8,7 +8,7 @@ public class Start {
 	public static void main(String args[]) {
 
 		try {
-			Hexapode.getClient().connectToDevServer("172.16.33.215", 4444);
+			Hexapode.getInstance().connect("172.16.33.215", 4444);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

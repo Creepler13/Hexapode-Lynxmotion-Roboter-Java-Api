@@ -59,10 +59,11 @@ public class Hexapode {
 	private BufferedWriter w = null;
 
 	/**
-	 * Get the shared instance of this Singleton
+	 * Get the shared instance of this Singleton<br>
+	 * <b>Note:<b> You can't use this instance until you called {@link Hexapode#connect(String, int)}
 	 *
 	 * @return An instance of this class
-	 * @see Hexapode#getClient()
+	 * @see Hexapode#connect(String, int)
 	 */
 	public static Hexapode getInstance() {
 		if (instance == null) {
@@ -73,58 +74,30 @@ public class Hexapode {
 		return instance;
 	}
 
-	/**
-	 * Like {@link Hexapode#getInstance() getInstance}, but forces the returned
-	 * instance to be in client-mode<br>
-	 * <b>Note:</b> This method must be called before calling
-	 * {@link Hexapode#getInstance() getInstance()}
-	 *
-	 * @throws IllegalStateException If getInstance has been called before and
-	 *                               already created a local (non-client) instance
-	 *                               of the Singleton
-	 * @return An instance of this class using the DevServer
-	 * @see Hexapode#getInstance()
-	 */
-	public static Hexapode getClient() throws IllegalStateException {
-		if (instance == null) {
-			instance = new Hexapode(true);
-			return instance;
-		}
-		if (!instance.clientMode)
-			throw new IllegalStateException("getInstance has already be called!");
-		return instance;
-	}
+//	/**
+//	 * Like {@link Hexapode#getInstance() getInstance}, but forces the returned
+//	 * instance to be in client-mode<br>
+//	 * <b>Note:</b> This method must be called before calling
+//	 * {@link Hexapode#getInstance() getInstance()}
+//	 *
+//	 * @throws IllegalStateException If getInstance has been called before and
+//	 *                               already created a local (non-client) instance
+//	 *                               of the Singleton
+//	 * @return An instance of this class using the DevServer
+//	 * @see Hexapode#getInstance()
+//	 */
+//	public static Hexapode getClient() throws IllegalStateException {
+//		if (instance == null) {
+//			instance = new Hexapode(true);
+//			return instance;
+//		}
+//		if (!instance.clientMode)
+//			throw new IllegalStateException("getInstance has already be called!");
+//		return instance;
+//	}
 
 	private Hexapode(boolean forceClient) {
-
-		if (!forceClient) {
-			try {
-				serial = SerialFactory.createInstance();
-				SerialConfig config = new SerialConfig();
-				config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
-						.stopBits(StopBits._1).flowControl(FlowControl.NONE);
-				serial.addListener(new SerialDataEventListener() {
-					@Override
-					public void dataReceived(SerialDataEvent event) {
-						try {
-							System.out.println("--- Start of serial input ---\n"
-									+ event.getString(StandardCharsets.UTF_8) + "\n--- End of serial input ---");
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-				});
-				serial.open(config);
-			} catch (UnsupportedBoardType | InterruptedException | IOException e) {
-				e.printStackTrace();
-				System.out.println("This host can only be used as a client!");
-				clientMode = true;
-			}
-		} else {
-			System.out.println("This host can now only be used as a client!");
-			clientMode = true;
-		}
-
+		// Initialization of variables happens in connect()
 	}
 
 	/**
@@ -197,6 +170,7 @@ public class Hexapode {
 		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < instructions.length - 1; i++) {
 			String[] args = instructions[i].split("P");
+			System.out.println();
 			result.append("#").append(args[0]);
 			int[] map = null;
 			for (int[] pinMap : PIN_MAPPING) {
@@ -231,7 +205,7 @@ public class Hexapode {
 	 * Connect to a running {@link DevServer}
 	 *
 	 * @param hostname The hostname of the host to connect to
-	 * @param port     The port to connect to
+	 * @param port     The port to connect to (Can be null)
 	 * @throws UnknownHostException  Thrown by the {@link Socket#Socket(String, int)
 	 *                               Socket contructor}
 	 * @throws IOException           Thrown by the {@link Socket#Socket(String, int)
@@ -245,8 +219,32 @@ public class Hexapode {
 	 *                               class.
 	 * @see Hexapode#getClient()
 	 */
-	public void connectToDevServer(String hostname, int port)
+	public void connect(String hostname, int port)
 			throws UnknownHostException, IOException, IllegalStateException {
+		if(hostname.trim().equalsIgnoreCase("local")) {
+			try {
+				serial = SerialFactory.createInstance();
+				SerialConfig config = new SerialConfig();
+				config.device(SerialPort.getDefaultPort()).baud(Baud._9600).dataBits(DataBits._8).parity(Parity.NONE)
+						.stopBits(StopBits._1).flowControl(FlowControl.NONE);
+				serial.addListener(new SerialDataEventListener() {
+					@Override
+					public void dataReceived(SerialDataEvent event) {
+						try {
+							System.out.println("--- Start of serial input ---\n"
+									+ event.getString(StandardCharsets.UTF_8) + "\n--- End of serial input ---");
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				serial.open(config);
+			} catch (UnsupportedOperationException | UnsupportedBoardType | InterruptedException | IOException e) {
+				e.printStackTrace();
+				throw new IllegalStateException("This host can only be used as a client!");
+			}
+			return;
+		}
 		if (!clientMode)
 			throw new IllegalStateException("You are calling this method on a local (non-client) instance!");
 		if (w != null)
