@@ -243,6 +243,27 @@ public class Hexapode {
 	}
 
 	/**
+	 * Connect to a running {@link DevServer} using the default port (4444)
+	 * 
+	 * @param hostname The hostname of the host to connect to
+	 * @throws UnknownHostException  Thrown by the {@link Socket#Socket(String, int)
+	 *                               Socket contructor}
+	 * @throws IOException           Thrown by the {@link Socket#Socket(String, int)
+	 *                               Socket contructor}
+	 * @throws IllegalStateException If this method is called on a local
+	 *                               (non-client) instance<br>
+	 *                               <i>Tip:</i> You can force the instance to be a
+	 *                               client instance by calling
+	 *                               {@link Hexapode#getClient() getClient()} the
+	 *                               first time you want to get an instance of this
+	 *                               class.
+	 * @see Hexapode#getClient()
+	 */
+	public void connectToDevServer(String hostname) throws UnknownHostException, IOException, IllegalStateException {
+		connectToDevServer(hostname, 4444);
+	}
+
+	/**
 	 * Connect to a running {@link DevServer}
 	 *
 	 * @param hostname The hostname of the host to connect to
@@ -270,6 +291,21 @@ public class Hexapode {
 			sock.close();
 		sock = new Socket(hostname, port);
 		w = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				System.out.println("Closing socket connection to the DevServer...");
+				try {
+					w.close();
+					sock.close();
+				} catch (IOException e) {
+					if (DEBUGGING)
+						e.printStackTrace();
+					System.out.println("An error occured while closing the socket! Shutting down...");
+				}
+			}
+		}));
 	}
 
 	/**
