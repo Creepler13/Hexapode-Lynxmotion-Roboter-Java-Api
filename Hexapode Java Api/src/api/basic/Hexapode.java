@@ -97,7 +97,8 @@ public class Hexapode {
 			return instance;
 		}
 		if (!instance.clientMode)
-			throw new IllegalStateException("getInstance has already be called!");
+			throw new IllegalStateException(
+					"getInstance has already be called and created an instance running in local mode!");
 		return instance;
 	}
 
@@ -151,6 +152,7 @@ public class Hexapode {
 	public void serialCommand(String command) {
 		if (clientMode) {
 			sendToServer(command, "s");
+			return;
 		}
 		try {
 			serial.write(command + "\r");
@@ -174,9 +176,9 @@ public class Hexapode {
 //		System.out.println("Executing command:\n" + command);
 		if (clientMode) {
 			sendToServer(command, "e");
-		} else {
-			serialCommand(applyPINMapping(applyPositionMapping(command)));
+			return;
 		}
+		serialCommand(applyPINMapping(applyPositionMapping(command)));
 	}
 
 	/**

@@ -13,16 +13,49 @@ import api.basic.PINConstants;
 public class Example3 {
 
 	public static void main(String[] args) {
+		// Bundles are very useful to save combinations of commands and execute them
+		// simultaneously. But it quickly becomes tedious to add every instruction
+		// individually to the bundle.
+		// This is why there is a convenience class called BundleCreator to create
+		// bundles which are already initialised to handle the most common use cases of
+		// Bundles.
 
-		// To create bundles faster you can use the Bundle Creator
-		//
-		// the first value is the pin of the leg. here: 100
-		// the second value is the position the hip will move to. here: 1000
-		// the third value is the position the knee will move to. here: 1500
-		// the fourth value is the position the foot will move to. here: 0
-		// the fifth value is the time the servos need to reach the positions. here: 500
-		Bundle bundle = BundleCreator.moveLeg(PINConstants.FRONT + PINConstants.LEFT, 1000, 1500, 0, 500);
-		bundle.exec();
+		// Create a Bundle which moves servos of the front left leg simultaneously for
+		// 0.5 (500 milliseconds) seconds and save it in the variable moveLeg
+		// Hip position: 1000
+		// Knee position: 1500
+		// Foot position: 0
+		Bundle moveLeg = BundleCreator.moveLeg(PINConstants.FRONT + PINConstants.LEFT, 1000, 1500, 0, 500);
+
+		// Execute the Bundle
+		moveLeg.exec();
+
+		// Wait until the leg has finished moving plus 0.5 seconds
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		// Create a Bundle which moves all legs to the same position for 2.5 seconds
+		// (2500 milliseconds) and save it in the variable moveAll
+		// Hip position of all legs: 45
+		// Knee position of all legs: 750
+		// Foot position of all legs: 1430
+		Bundle moveAll = BundleCreator.moveAllLegs(45, 750, 1430, 2500);
+
+		// Execute the Bundle
+		moveAll.exec();
+
+		// Wait until the legs have finished moving plus 0.5 seconds
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		// Execute the first Bundle again and move the front left leg back into position
+		moveLeg.exec();
 	}
 
 }
