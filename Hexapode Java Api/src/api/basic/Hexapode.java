@@ -65,8 +65,11 @@ public class Hexapode {
 	 * @see Hexapode#getClient()
 	 */
 	public static Hexapode getInstance() {
-		if (instance == null)
+		if (instance == null) {
 			instance = new Hexapode(false);
+			if (!instance.isClient())
+				PINConfig.initPINConfig();
+		}
 		return instance;
 	}
 
@@ -112,7 +115,6 @@ public class Hexapode {
 					}
 				});
 				serial.open(config);
-				PINConfig.initPINConfig();
 			} catch (UnsupportedBoardType | InterruptedException | IOException e) {
 				e.printStackTrace();
 				System.out.println("This host can only be used as a client!");
