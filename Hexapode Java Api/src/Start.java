@@ -10,7 +10,6 @@ public class Start {
 		try {
 			Hexapode.getClient().connectToDevServer("172.16.33.215", 4444);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Bundle bundle = new Bundle(2000);

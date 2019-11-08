@@ -173,8 +173,9 @@ public class PINConfig {
 				}
 				System.out.println("Pin map loaded!");
 			} catch (IOException e) {
-				e.printStackTrace();
-				System.out.println("An error occurred while loading the pin map.\nUsing default values insted");
+				if (Hexapode.DEBUGGING)
+					e.printStackTrace();
+				System.out.println("An error occurred while loading the pin map.\nUsing default values instead");
 			}
 		} else {
 			System.out.print(
@@ -188,9 +189,9 @@ public class PINConfig {
 				}
 				while (true) {
 					Console.clearScreen();
-					Console.box(
-							"Hexapod calibration wizard\nAnswer the questions below to create a configuration file\n"
-									+ "(Answers in brackets are default values)");
+					Console.box("Hexapod calibration wizard",
+							"Answer the questions below to create a configuration file",
+							"(Answers in brackets are default values)");
 					Console.emptyLine();
 					System.out.println("--- Please enter the physical pin id corresponding to the servo ---");
 					for (int i = 0; i < Hexapode.PIN_MAPPING.length; i++) {
@@ -236,7 +237,7 @@ public class PINConfig {
 				}
 				BundleCreator.moveAllLegs(0, 0, 0, 500).exec();
 				Console.clearScreen();
-				Console.box("Hexapod calibration wizard\nCalibrating the servos");
+				Console.box("Hexapod calibration wizard", "Calibrating the servos");
 				Console.emptyLine();
 				System.out.print("Are all motors at the same position? (y/n) : ");
 				if (!r.readLine().toLowerCase().equals("y")) {
@@ -244,7 +245,10 @@ public class PINConfig {
 				}
 				savePositionMap();
 			} catch (IOException e) {
-				e.printStackTrace();
+				if (Hexapode.DEBUGGING)
+					e.printStackTrace();
+				System.out.println(
+						"The programme could not read the text you entered in the command line.\nAutomatically continuing using default values and/or already entered ones...");
 			}
 		}
 	}
@@ -268,14 +272,16 @@ public class PINConfig {
 					StandardOpenOption.SYNC, StandardOpenOption.TRUNCATE_EXISTING);
 			System.out.println("Your settings have been saved!");
 		} catch (IOException e) {
-			e.printStackTrace();
+			if (Hexapode.DEBUGGING)
+				e.printStackTrace();
 			System.out.println("The operation failed!");
 		}
 		System.out.print("Press ENTER to continue...");
 		try {
 			new BufferedReader(new InputStreamReader(System.in)).readLine();
 		} catch (IOException e) {
-			e.printStackTrace();
+			if (Hexapode.DEBUGGING)
+				e.printStackTrace();
 			System.out.println("An error occurred! Continuing automatically...");
 		}
 	}

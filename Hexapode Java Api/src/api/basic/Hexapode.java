@@ -52,6 +52,12 @@ public class Hexapode {
 	 */
 	public static final int[][] PIN_MAPPING = new int[18][4];
 
+	/**
+	 * Set this boolean to true to print additional error information and stack
+	 * traces to the console.
+	 */
+	public static boolean DEBUGGING = false;
+
 	private static Hexapode instance = null;
 
 	private boolean clientMode = false;
@@ -110,14 +116,19 @@ public class Hexapode {
 							System.out.println("--- Start of serial input ---\n"
 									+ event.getString(StandardCharsets.UTF_8) + "\n--- End of serial input ---");
 						} catch (IOException e) {
-							e.printStackTrace();
+							if (DEBUGGING)
+								e.printStackTrace();
+							System.err.println("Serial input was received but could not be printed to the console!");
 						}
 					}
 				});
 				serial.open(config);
 			} catch (UnsupportedBoardType | InterruptedException | IOException e) {
-				e.printStackTrace();
-				System.out.println("This host can only be used as a client!");
+				if (DEBUGGING)
+					e.printStackTrace();
+				System.out.println("Pi4J was not found! This is normal if you are not using this API on a hexapod."
+						+ "\nOn a hexapod, make sure that you have added Pi4J to the classpath."
+						+ "\nThis host can only be used as a client!");
 				clientMode = true;
 			}
 		} else {
@@ -144,7 +155,11 @@ public class Hexapode {
 		try {
 			serial.write(command + "\r");
 		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
+			if (DEBUGGING)
+				e.printStackTrace();
+			System.out.println(
+					"The command you tried to execute could not be sent to the serial controller! (Your command: "
+							+ command + ")");
 		}
 	}
 
@@ -280,7 +295,8 @@ public class Hexapode {
 				w.flush();
 				System.out.println("Send command : " + command + " to the Server.");
 			} catch (IOException e) {
-				e.printStackTrace();
+				if (DEBUGGING)
+					e.printStackTrace();
 				System.out.println("Your command could not be sent to the dev server. Are you connected?");
 			}
 		else

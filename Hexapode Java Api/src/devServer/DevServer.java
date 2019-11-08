@@ -31,7 +31,7 @@ public class DevServer {
 			new DevServer();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("The server crashed! Exit programm...");
+			System.out.println("The server crashed! Exit programme...");
 		}
 	}
 
@@ -68,7 +68,7 @@ public class DevServer {
 					s.close();
 				}
 				e.printStackTrace();
-				System.out.println("Connection closed");
+				System.out.println("An exception occured! Connection closed");
 			}
 			if (!s.isClosed()) {
 				s.close();
