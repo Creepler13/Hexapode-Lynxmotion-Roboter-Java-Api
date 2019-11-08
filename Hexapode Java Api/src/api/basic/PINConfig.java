@@ -3,6 +3,7 @@ package api.basic;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -219,7 +220,7 @@ public class PINConfig {
 							System.out.print(fmb + " " + ((i / 3) % 2 == 0 ? "left" : "right") + " " + hkf + " ("
 									+ Hexapode.PIN_MAPPING[i][0] + ") : ");
 							String s = r.readLine();
-							if (s.strip().isEmpty())
+							if (s.trim().isEmpty())
 								break;
 							try {
 								Hexapode.PIN_MAPPING[i][0] = Integer.parseInt(s);
@@ -263,8 +264,8 @@ public class PINConfig {
 			}
 		}
 		try {
-			Files.writeString(Paths.get(positionMapLocation), strBuilder.toString(), StandardOpenOption.SYNC,
-					StandardOpenOption.TRUNCATE_EXISTING);
+			Files.write(Paths.get(positionMapLocation), strBuilder.toString().getBytes(StandardCharsets.UTF_8),
+					StandardOpenOption.SYNC, StandardOpenOption.TRUNCATE_EXISTING);
 			System.out.println("Your settings have been saved!");
 		} catch (IOException e) {
 			e.printStackTrace();
