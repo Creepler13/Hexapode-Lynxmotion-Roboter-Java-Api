@@ -1,6 +1,7 @@
 # Hexapode-Lynxmotion-Roboter-Java-Api
 JavaDoc : https://creepler13.github.io/Hexapode-Lynxmotion-Roboter-Java-Api/
 
+WIKI : https://github.com/Creepler13/Hexapode-Lynxmotion-Roboter-Java-Api/wiki
 
 TODO Readme
 
