@@ -35,13 +35,12 @@ public class Example4 {
 		collection.add(bundle1);
 		collection.add(collection2);
 
-		// Execute the commands in your Collection
-		// The commands will run with the Time Specified in their Bundles (bundle1:
-		// 1000)
+		// Execute the commands in the Collection
+		// The commands will all run for their specified execution time
 		collection.exec();
 
-		// You can also run them all with the same time
-		collection.exec(1500);
+		// You can also execute all instructions with the same execution time:
+		// collection.exec(1500);
 
 		// See whats in your Collection
 		collection.printTree();
