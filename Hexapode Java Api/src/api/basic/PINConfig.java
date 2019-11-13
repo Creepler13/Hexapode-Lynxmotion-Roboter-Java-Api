@@ -163,6 +163,7 @@ public class PINConfig {
 	 * started to create one
 	 */
 	public static void loadPositionMap() {
+		System.out.println(Hexapode.getInstance());
 		System.out.println("Looking for a pin map...");
 		if (Files.exists(Paths.get(positionMapLocation))) {
 			System.out.println("Pin map found!\nLoading pin map...");
