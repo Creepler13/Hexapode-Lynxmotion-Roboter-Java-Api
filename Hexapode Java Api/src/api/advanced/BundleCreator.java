@@ -59,8 +59,6 @@ public class BundleCreator {
 				bundle.add(Hexapode.PIN_MAPPING[i][1], foot);
 			}
 		}
-		System.out.println(Hexapode.getInstance()
-				.applyPINMapping((Hexapode.getInstance().applyPositionMapping(bundle.getCommand()))));
 		return bundle;
 	}
 }

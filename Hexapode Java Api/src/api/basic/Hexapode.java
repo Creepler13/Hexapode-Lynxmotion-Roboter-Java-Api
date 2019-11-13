@@ -200,6 +200,7 @@ public class Hexapode {
 		for (int i = 0; i < PIN_MAPPING.length; i++) {
 			command = command.replaceAll("#" + (-PIN_MAPPING[i][0]), "#" + PIN_MAPPING[i][0]);
 		}
+		System.out.println(command);
 		return command;
 	}
 
