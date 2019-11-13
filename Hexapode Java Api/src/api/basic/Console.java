@@ -80,4 +80,34 @@ public class Console {
 	public static com.pi4j.util.Console title(String... title) {
 		return console.title(title);
 	}
+
+	public static <T> void printArray(T[] arr) {
+		System.out.print("[ ");
+		for (int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i]);
+			if (i < arr.length - 1)
+				System.out.print(", ");
+		}
+		System.out.println(" ]");
+	}
+
+	public static void printArray(double[] arr) {
+		System.out.print("[ ");
+		for (int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i]);
+			if (i < arr.length - 1)
+				System.out.print(", ");
+		}
+		System.out.println(" ]");
+	}
+	
+	public static void printArray(int[] arr) {
+		System.out.print("[ ");
+		for (int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i]);
+			if (i < arr.length - 1)
+				System.out.print(", ");
+		}
+		System.out.println(" ]");
+	}
 }

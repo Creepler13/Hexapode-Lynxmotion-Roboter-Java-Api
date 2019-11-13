@@ -44,6 +44,8 @@ import api.advanced.BundleCreator;
  * @author JustAnotherJavaProgrammer &amp; Creepler13
  */
 public class PINConfig {
+	
+	private static boolean pinsInitialized = false;
 
 	/**
 	 * Initialize the {@link api.basic.Hexapode#PIN_MAPPING PIN_MAPPING-array} in
@@ -54,6 +56,9 @@ public class PINConfig {
 	 * manually
 	 */
 	protected static void initPINConfig() {
+		if(pinsInitialized)
+			return;
+		pinsInitialized = true;
 		// Initializing default values
 
 		// Front left hip
@@ -163,7 +168,6 @@ public class PINConfig {
 	 * started to create one
 	 */
 	public static void loadPositionMap() {
-		System.out.println(Hexapode.getInstance());
 		System.out.println("Looking for a pin map...");
 		if (Files.exists(Paths.get(positionMapLocation))) {
 			System.out.println("Pin map found!\nLoading pin map...");
