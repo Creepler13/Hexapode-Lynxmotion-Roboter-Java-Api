@@ -268,8 +268,7 @@ public class PINConfig {
 		StringBuilder strBuilder = new StringBuilder();
 		for (int i = 0; i < Hexapode.PIN_MAPPING.length; i++) {
 			
-			for (int j = 0; j < Hexapode.PIN_MAPPING[i].length; i++) {
-				System.out.println(Hexapode.PIN_MAPPING[i].length+"           "+i);
+			for (int j = 0; j < Hexapode.PIN_MAPPING[i].length; j++) {
 				strBuilder.append(Hexapode.PIN_MAPPING[i][j]);
 				if (i < Hexapode.PIN_MAPPING.length - 1 && j < Hexapode.PIN_MAPPING[i].length - 1)
 					strBuilder.append("\n");
