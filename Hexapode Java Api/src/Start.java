@@ -2,6 +2,8 @@ import java.io.IOException;
 
 import api.advanced.Bundle;
 import api.basic.Hexapode;
+import api.basic.PINConfig;
+import api.basic.PINConstants;
 
 public class Start {
 
@@ -26,6 +28,8 @@ public class Start {
 		Hexapode.getInstance().exec("#210P1000T1000");
 		Hexapode.getInstance();
 
+		
+//		System.out.println(Hexapode.getClient().applyPositionMapping("#210P1300T560"));
 	}
 
 }

@@ -50,7 +50,8 @@ public class Hexapode {
 	 * @see PINConfig
 	 * @see PINConstants
 	 */
-	public static final int[][] PIN_MAPPING = new int[18][4];
+	public static final int[][] PIN_MAPPING = new int[18][3];
+	public static final double[] POS_MULTIP = new double[18];
 
 	/**
 	 * Set this boolean to true to print additional error information and stack
@@ -209,23 +210,29 @@ public class Hexapode {
 	 * @return The command after position-mapping has been applied
 	 */
 	public String applyPositionMapping(String command) {
+		PINConfig.initPINConfig();
 		command = command.replaceAll(" ", "");
 		String[] instructions = command.split("[#|T]");
 		StringBuilder result = new StringBuilder();
-		for (int i = 0; i < instructions.length - 1; i++) {
+		for (int i = 1; i < instructions.length - 1; i++) {
 			String[] args = instructions[i].split("P");
 			result.append("#").append(args[0]);
 			int[] map = null;
-			for (int[] pinMap : PIN_MAPPING) {
-				if (pinMap[1] == Integer.parseInt(args[0])) {
-					map = pinMap;
+			double multip = 1;
+			for (int j = 0; j < PIN_MAPPING.length; j++) {
+				if (PIN_MAPPING[j][1] == Integer.parseInt(args[0])) {
+					map = PIN_MAPPING[j];
+					multip = POS_MULTIP[j];
 					break;
 				}
 			}
-			result.append("P").append((Integer.parseInt(args[1]) * map[3]) + map[2]);
+			if (map == null)
+				result.append("P").append(args[1]);
+			else
+				result.append("P").append(Math.round((Integer.parseInt(args[1]) * multip) + map[2]));
 		}
 		result.append("T").append(instructions[instructions.length - 1]);
-		return command;
+		return result.toString();
 	}
 
 	/**
