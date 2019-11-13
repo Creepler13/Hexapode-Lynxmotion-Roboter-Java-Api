@@ -104,7 +104,6 @@ public class Hexapode {
 	}
 
 	private Hexapode(boolean forceClient) {
-		System.out.println("This should appear. If it doesn't, you are...");
 		if (!forceClient) {
 			try {
 				serial = SerialFactory.createInstance();
