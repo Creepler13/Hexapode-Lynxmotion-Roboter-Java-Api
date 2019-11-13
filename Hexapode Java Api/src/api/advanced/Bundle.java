@@ -97,6 +97,7 @@ public class Bundle implements ExecutableCommands {
 	 * @see Bundle#setTime(int)
 	 */
 	public void exec() {
+		System.out.println(getRawCommand());
 		exec(time);
 	}
 
