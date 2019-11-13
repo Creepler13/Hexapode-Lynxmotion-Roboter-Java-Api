@@ -51,12 +51,15 @@ public class BundleCreator {
 			switch (i % 3) {
 			case 0:
 				bundle.add(Hexapode.PIN_MAPPING[i][1], hip);
+				System.out.println("Add hip");
 				break;
 			case 1:
 				bundle.add(Hexapode.PIN_MAPPING[i][1], knee);
+				System.out.println("Add knee");
 				break;
-			case 2:
+			default:
 				bundle.add(Hexapode.PIN_MAPPING[i][1], foot);
+				System.out.println("Add foot");
 			}
 		}
 		System.out.println(bundle.getCommand());

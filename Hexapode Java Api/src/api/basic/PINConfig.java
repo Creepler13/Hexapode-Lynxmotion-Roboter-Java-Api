@@ -44,7 +44,7 @@ import api.advanced.BundleCreator;
  * @author JustAnotherJavaProgrammer &amp; Creepler13
  */
 public class PINConfig {
-	
+
 	private static boolean pinsInitialized = false;
 
 	/**
@@ -56,7 +56,7 @@ public class PINConfig {
 	 * manually
 	 */
 	protected static void initPINConfig() {
-		if(pinsInitialized)
+		if (pinsInitialized)
 			return;
 		pinsInitialized = true;
 		// Initializing default values
@@ -168,13 +168,17 @@ public class PINConfig {
 	 * started to create one
 	 */
 	public static void loadPositionMap() {
-		//new Exception().printStackTrace();
+		// new Exception().printStackTrace();
 		System.out.println("Looking for a pin map...");
 		if (Files.exists(Paths.get(positionMapLocation))) {
 			System.out.println("Pin map found!\nLoading pin map...");
 			try {
 				List<String> map = Files.readAllLines(Paths.get(positionMapLocation));
 				for (int i = 0; i < map.size(); i++) {
+					if (i % 4 == 4) {
+						Hexapode.POS_MULTIP[i / 4] = Double.parseDouble(map.get(i));
+						continue;
+					}
 					Hexapode.PIN_MAPPING[i / 4][i % 4] = Integer.parseInt(map.get(i));
 				}
 				System.out.println("Pin map loaded!");
@@ -267,11 +271,14 @@ public class PINConfig {
 		System.out.println("Saving the configuration file...");
 		StringBuilder strBuilder = new StringBuilder();
 		for (int i = 0; i < Hexapode.PIN_MAPPING.length; i++) {
-			
+
 			for (int j = 0; j < Hexapode.PIN_MAPPING[i].length; j++) {
 				strBuilder.append(Hexapode.PIN_MAPPING[i][j]);
-				if (i < Hexapode.PIN_MAPPING.length - 1 && j < Hexapode.PIN_MAPPING[i].length - 1)
-					strBuilder.append("\n");
+				strBuilder.append("\n");
+			}
+			strBuilder.append(Hexapode.POS_MULTIP[i]);
+			if (i < Hexapode.PIN_MAPPING.length - 1) {
+				strBuilder.append("\n");
 			}
 		}
 		try {
