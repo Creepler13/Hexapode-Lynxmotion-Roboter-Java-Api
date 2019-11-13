@@ -168,7 +168,7 @@ public class PINConfig {
 	 * started to create one
 	 */
 	public static void loadPositionMap() {
-		new Exception().printStackTrace();
+		//new Exception().printStackTrace();
 		System.out.println("Looking for a pin map...");
 		if (Files.exists(Paths.get(positionMapLocation))) {
 			System.out.println("Pin map found!\nLoading pin map...");
