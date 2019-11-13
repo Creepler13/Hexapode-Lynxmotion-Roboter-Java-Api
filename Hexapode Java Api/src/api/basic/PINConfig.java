@@ -157,8 +157,9 @@ public class PINConfig {
 		Hexapode.PIN_MAPPING[17][2] = 525;
 		Hexapode.POS_MULTIP[17] = 1500.0 / (2450.0 - 525);
 
-		// Overwriting defaults with values from the config file
-		loadPositionMap();
+		if (!Hexapode.getInstance().isClient())
+			// Overwriting defaults with values from the config file
+			loadPositionMap();
 	}
 
 	private static final String positionMapLocation = "pinMap.conf";
@@ -247,7 +248,7 @@ public class PINConfig {
 				}
 				Console.clearScreen();
 				BundleCreator.moveAllLegs(0, 0, 0, 500).exec();
-				
+
 				Console.box("Hexapod calibration wizard", "Calibrating the servos");
 				Console.emptyLine();
 				System.out.print("Are all motors at the same position? (y/n) : ");

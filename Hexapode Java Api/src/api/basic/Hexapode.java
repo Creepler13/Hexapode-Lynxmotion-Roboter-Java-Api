@@ -75,8 +75,7 @@ public class Hexapode {
 
 		if (instance == null) {
 			instance = new Hexapode(false);
-			if (!instance.isClient())
-				PINConfig.initPINConfig();
+			PINConfig.initPINConfig();
 		}
 		return instance;
 	}
@@ -96,6 +95,7 @@ public class Hexapode {
 	public static Hexapode getClient() throws IllegalStateException {
 		if (instance == null) {
 			instance = new Hexapode(true);
+			PINConfig.initPINConfig();
 			return instance;
 		}
 		if (!instance.clientMode)
