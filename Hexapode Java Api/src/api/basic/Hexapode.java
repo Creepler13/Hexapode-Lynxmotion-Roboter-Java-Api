@@ -72,6 +72,7 @@ public class Hexapode {
 	 * @see Hexapode#getClient()
 	 */
 	public static Hexapode getInstance() {
+		
 		if (instance == null) {
 			instance = new Hexapode(false);
 			if (!instance.isClient())
