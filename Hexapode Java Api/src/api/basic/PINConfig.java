@@ -245,8 +245,9 @@ public class PINConfig {
 					if (r.readLine().toLowerCase().equals("y"))
 						break;
 				}
-				BundleCreator.moveAllLegs(0, 0, 0, 500).exec();
 				Console.clearScreen();
+				BundleCreator.moveAllLegs(0, 0, 0, 500).exec();
+				
 				Console.box("Hexapod calibration wizard", "Calibrating the servos");
 				Console.emptyLine();
 				System.out.print("Are all motors at the same position? (y/n) : ");
