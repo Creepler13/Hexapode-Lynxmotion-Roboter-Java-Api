@@ -86,7 +86,7 @@ public class Bundle implements ExecutableCommands {
 	 */
 	public void exec(int customTime) {
 //		System.out.println("Now executing command: " + getCommand());
-		hexapod.exec(getCommand());
+		hexapod.exec(getRawCommand() + "T" + customTime);
 	}
 
 	/**
@@ -97,7 +97,6 @@ public class Bundle implements ExecutableCommands {
 	 * @see Bundle#setTime(int)
 	 */
 	public void exec() {
-		System.out.println(getRawCommand());
 		exec(time);
 	}
 
@@ -137,7 +136,7 @@ public class Bundle implements ExecutableCommands {
 	 * @return The command that will be executed by {@link Bundle#exec() exec()}.
 	 */
 	public String getCommand() {
-		return command + " T" + time;
+		return command + "T" + time;
 	}
 
 	/**
