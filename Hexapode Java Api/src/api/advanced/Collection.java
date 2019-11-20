@@ -130,7 +130,7 @@ public class Collection implements ExecutableCommands {
 	public void execBlocking() {
 		exec();
 		try {
-			Thread.sleep(getTime());
+			Thread.sleep(getTime() + 50);
 		} catch (InterruptedException e) {
 			if (Hexapode.DEBUGGING)
 				e.printStackTrace();

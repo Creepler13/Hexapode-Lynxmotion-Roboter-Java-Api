@@ -164,4 +164,28 @@ public class Bundle implements ExecutableCommands {
 		return obj instanceof Bundle ? getCommand().equals(((Bundle) obj).getCommand()) : false;
 	}
 
+	@Override
+	public void execBlocking() {
+		exec();
+		try {
+			Thread.sleep(getTime() + 50);
+		} catch (InterruptedException e) {
+			if (Hexapode.DEBUGGING)
+				e.printStackTrace();
+			System.out.println("The thread was interrupted whilst being blocked by a blocking command.");
+		}
+	}
+
+	@Override
+	public void execBlocking(int time) {
+		exec(time);
+		try {
+			Thread.sleep(time + 50);
+		} catch (InterruptedException e) {
+			if (Hexapode.DEBUGGING)
+				e.printStackTrace();
+			System.out.println("The thread was interrupted whilst being blocked by a blocking command.");
+		}
+	}
+
 }
