@@ -2,6 +2,10 @@ package api.advanced;
 
 import java.util.ArrayList;
 
+import javax.swing.DebugGraphics;
+
+import api.basic.Hexapode;
+
 /**
  * A tool to combine multiple {@link ExecutableCommands} into one object, which
  * runs all contained commands in parallel.
@@ -110,6 +114,40 @@ public class Collection implements ExecutableCommands {
 	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof Collection ? getTree().equals(((Collection) obj).getTree()) : false;
+	}
+
+	@Override
+	public int getTime() {
+		int largestTime = 0;
+		for (ExecutableCommands c : commands) {
+			if (c.getTime() > largestTime)
+				largestTime = c.getTime();
+		}
+		return largestTime;
+	}
+
+	@Override
+	public void execBlocking() {
+		exec();
+		try {
+			Thread.sleep(getTime());
+		} catch (InterruptedException e) {
+			if (Hexapode.DEBUGGING)
+				e.printStackTrace();
+			System.out.println("The thread was interrupted whilst being blocked by a command being executed.");
+		}
+	}
+
+	@Override
+	public void execBlocking(int time) {
+		exec(time);
+		try {
+			Thread.sleep(time + 50);
+		} catch (InterruptedException e) {
+			if (Hexapode.DEBUGGING)
+				e.printStackTrace();
+			System.out.println("The thread was interrupted whilst being blocked by a command being executed.");
+		}
 	}
 
 }

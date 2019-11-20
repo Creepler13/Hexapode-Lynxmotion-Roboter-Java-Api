@@ -14,13 +14,28 @@ public class Start {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Bundle bundle = BundleCreator.moveAllLegs(1500, 1500, 1500, 1000);
+		Bundle bundle = BundleCreator.moveAllLegs(750, 2300, 2300, 2000);
+		Bundle bundle2 = BundleCreator.moveAllLegs(750, 1000, 1000, 2000);
 //		Bundle bundle2 = new Bundle(2000);
 //		bundle2.add(302, 1500);
 
 //		bundle.add(bundle2);
+		while(true) {
 		bundle.exec();
-
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bundle2.exec();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
 		
 //		System.out.println(Hexapode.getClient().applyPositionMapping("#210P1300T560"));
 	}
