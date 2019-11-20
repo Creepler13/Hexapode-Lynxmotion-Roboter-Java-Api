@@ -69,7 +69,7 @@ public class PINConfig {
 		// Front left knee
 		Hexapode.PIN_MAPPING[1][0] = 30;
 		Hexapode.PIN_MAPPING[1][1] = 101;
-		Hexapode.PIN_MAPPING[1][2] = 2450;
+		Hexapode.PIN_MAPPING[1][2] = 1000;
 		Hexapode.POS_MULTIP[1] = 1500.0 / (2450.0 - 1000);
 		// Front left foot
 		Hexapode.PIN_MAPPING[2][0] = 31;
@@ -101,7 +101,7 @@ public class PINConfig {
 		// Middle left knee
 		Hexapode.PIN_MAPPING[7][0] = 26;
 		Hexapode.PIN_MAPPING[7][1] = 201;
-		Hexapode.PIN_MAPPING[7][2] = 2450;
+		Hexapode.PIN_MAPPING[7][2] = 1000;
 		Hexapode.POS_MULTIP[7] = 1500.0 / (2450.0 - 1000);
 		// Middle left foot
 		Hexapode.PIN_MAPPING[8][0] = 27;
@@ -133,7 +133,7 @@ public class PINConfig {
 		// Back left knee
 		Hexapode.PIN_MAPPING[13][0] = 22;
 		Hexapode.PIN_MAPPING[13][1] = 301;
-		Hexapode.PIN_MAPPING[13][2] = 2450;
+		Hexapode.PIN_MAPPING[13][2] = 1000;
 		Hexapode.POS_MULTIP[13] = 1500.0 / (2450.0 - 1000);
 		// Back left foot
 		Hexapode.PIN_MAPPING[14][0] = 23;
