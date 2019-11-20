@@ -85,13 +85,13 @@ public class PINConfig {
 		// Front right knee
 		Hexapode.PIN_MAPPING[4][0] = 14;
 		Hexapode.PIN_MAPPING[4][1] = 111;
-		Hexapode.PIN_MAPPING[4][2] = 1000;
-		Hexapode.POS_MULTIP[4] = 1500.0 / (2450.0 - 1000);
+		Hexapode.PIN_MAPPING[4][2] = 2450;
+		Hexapode.POS_MULTIP[4] = 1500.0 / (1000 - 2450.0);
 		// Front right foot
 		Hexapode.PIN_MAPPING[5][0] = 15;
 		Hexapode.PIN_MAPPING[5][1] = 112;
-		Hexapode.PIN_MAPPING[5][2] = 525;
-		Hexapode.POS_MULTIP[5] = 1500.0 / (2450.0 - 525);
+		Hexapode.PIN_MAPPING[5][2] = 2450;
+		Hexapode.POS_MULTIP[5] = 1500.0 / (525 - 2450.0);
 
 		// Middle left hip
 		Hexapode.PIN_MAPPING[6][0] = 25;
@@ -117,13 +117,13 @@ public class PINConfig {
 		// Middle right knee
 		Hexapode.PIN_MAPPING[10][0] = 10;
 		Hexapode.PIN_MAPPING[10][1] = 211;
-		Hexapode.PIN_MAPPING[10][2] = 1000;
-		Hexapode.POS_MULTIP[10] = 1500.0 / (2450.0 - 1000);
+		Hexapode.PIN_MAPPING[10][2] = 2450;
+		Hexapode.POS_MULTIP[10] = 1500.0 / (1000 - 2450.0);
 		// Middle right foot
 		Hexapode.PIN_MAPPING[11][0] = 11;
 		Hexapode.PIN_MAPPING[11][1] = 212;
-		Hexapode.PIN_MAPPING[11][2] = 525;
-		Hexapode.POS_MULTIP[11] = 1500.0 / (2450.0 - 525);
+		Hexapode.PIN_MAPPING[11][2] = 2450;
+		Hexapode.POS_MULTIP[11] = 1500.0 / (525 - 2450.0);
 
 		// Back left hip
 		Hexapode.PIN_MAPPING[12][0] = 21;
@@ -149,13 +149,13 @@ public class PINConfig {
 		// Back right knee
 		Hexapode.PIN_MAPPING[16][0] = 6;
 		Hexapode.PIN_MAPPING[16][1] = 311;
-		Hexapode.PIN_MAPPING[16][2] = 1000;
-		Hexapode.POS_MULTIP[16] = 1500.0 / (2450.0 - 1000);
+		Hexapode.PIN_MAPPING[16][2] = 2450;
+		Hexapode.POS_MULTIP[16] = 1500.0 / (1000 - 2450.0);
 		// Back right foot
 		Hexapode.PIN_MAPPING[17][0] = 7;
 		Hexapode.PIN_MAPPING[17][1] = 312;
-		Hexapode.PIN_MAPPING[17][2] = 525;
-		Hexapode.POS_MULTIP[17] = 1500.0 / (2450.0 - 525);
+		Hexapode.PIN_MAPPING[17][2] = 2450;
+		Hexapode.POS_MULTIP[17] = 1500.0 / (525 - 2450.0);
 
 		if (!Hexapode.getInstance().isClient())
 			// Overwriting defaults with values from the config file

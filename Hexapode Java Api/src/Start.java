@@ -14,7 +14,7 @@ public class Start {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Bundle bundle = BundleCreator.moveAllLegs(0, 0, 0, 1000);
+		Bundle bundle = BundleCreator.moveAllLegs(1500, 1500, 1500, 1000);
 //		Bundle bundle2 = new Bundle(2000);
 //		bundle2.add(302, 1500);
 
