@@ -1,4 +1,5 @@
 api.advanced
 api.basic
-devServer
+dev.roboscript
+dev.server
 test
