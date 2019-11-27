@@ -1,11 +1,13 @@
 package api.basic;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+
+import org.java_websocket.client.WebSocketClient;
 
 import com.pi4j.io.gpio.exception.UnsupportedBoardType;
 import com.pi4j.io.serial.Baud;
@@ -20,6 +22,7 @@ import com.pi4j.io.serial.SerialFactory;
 import com.pi4j.io.serial.SerialPort;
 import com.pi4j.io.serial.StopBits;
 
+import dev.server.DevClient;
 import dev.server.DevServer;
 
 /**
@@ -62,8 +65,7 @@ public class Hexapode {
 	private static Hexapode instance = null;
 
 	private boolean clientMode = false;
-	private Socket sock = null;
-	private BufferedWriter w = null;
+	private WebSocketClient sock = null;
 
 	/**
 	 * Get the shared instance of this Singleton
@@ -294,25 +296,22 @@ public class Hexapode {
 			throws UnknownHostException, IOException, IllegalStateException {
 		if (!clientMode)
 			throw new IllegalStateException("You are calling this method on a local (non-client) instance!");
-		if (w != null)
-			w.close();
 		if (sock != null)
 			sock.close();
-		sock = new Socket(hostname, port);
-		w = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+		try {
+			sock = new DevClient(new URI("ws://" + hostname + ":" + port));
+		} catch (URISyntaxException e) {
+			if (DEBUGGING)
+				e.printStackTrace();
+			throw new IllegalArgumentException(
+					"You must enter a valid hostname and port to be included in a WebSocket URI (ws:////hostname:port)");
+		}
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				System.out.println("Closing socket connection to the DevServer...");
-				try {
-					w.close();
-					sock.close();
-				} catch (IOException e) {
-					if (DEBUGGING)
-						e.printStackTrace();
-					System.out.println("An error occured while closing the socket! Shutting down...");
-				}
+				sock.close();
 			}
 		}));
 	}
@@ -333,18 +332,10 @@ public class Hexapode {
 	}
 
 	private void sendToServer(String command, String prefix) {
-		if (w != null)
-			try {
-				w.write(prefix + command);
-				w.newLine();
-				w.flush();
-				System.out.println("Send command : " + command + " to the Server.");
-			} catch (IOException e) {
-				if (DEBUGGING)
-					e.printStackTrace();
-				System.out.println("Your command could not be sent to the dev server. Are you connected?");
-			}
-		else
+		if (sock != null && sock.isOpen()) {
+			sock.send(prefix + command);
+			System.out.println("Send command : " + command + " to the Server.");
+		} else
 			Console.box("Your device seemingly is not a hexapod.",
 					"To control a remote hexapod, please connect to a DevServer running on a hexapod.", "",
 					"If you are running this program on a hexapod, please make sure",

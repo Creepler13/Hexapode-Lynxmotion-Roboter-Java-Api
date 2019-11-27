@@ -4,12 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Collections;
 import java.util.Enumeration;
+
+import org.java_websocket.WebSocket;
+import org.java_websocket.handshake.ClientHandshake;
+import org.java_websocket.server.WebSocketServer;
 
 import api.basic.Hexapode;
 
@@ -21,60 +26,18 @@ import api.basic.Hexapode;
  * @see api.basic.Hexapode#exec(String)
  * @see api.basic.Hexapode#serialCommand(String)
  */
-public class DevServer {
+public class DevServer extends WebSocketServer {
 	Hexapode hexapode = Hexapode.getInstance();
 	protected static int PORT = 4444;
 	ServerSocket serverSocket;
 
 	public static void main(String[] args) {
-		try {
-			new DevServer();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("The server crashed! Exit programme...");
-		}
+		Hexapode.getInstance();
+		new DevServer();
 	}
 
-	private DevServer() throws IOException {
-		serverSocket = new ServerSocket(PORT);
-		while (true) {
-			System.out.println("Now waiting for incoming connections at " + getIPAddr().getHostAddress() + " on port "
-					+ serverSocket.getLocalPort());
-			Socket s = null;
-			try {
-				s = serverSocket.accept();
-				System.out.println("Now connected to: " + s.getInetAddress().toString());
-				BufferedReader r = null;
-				try {
-					r = new BufferedReader(new InputStreamReader(s.getInputStream()));
-				} catch (IOException e) {
-					s.close();
-				}
-				String line = r.readLine();
-				while (s.isConnected() && !s.isClosed() && line != null) {
-					if (line.startsWith("e")) {
-						line = line.substring(1);
-						System.out.println("Executing command (pin-mapping enabled): " + line);
-						hexapode.exec(line);
-					} else if (line.startsWith("s")) {
-						line = line.substring(1);
-						System.out.println("Executing command (pin-mapping disabled): " + line);
-						hexapode.serialCommand(line);
-					}
-					line = r.readLine();
-				}
-			} catch (IOException e) {
-				if (s != null) {
-					s.close();
-				}
-				e.printStackTrace();
-				System.out.println("An exception occured! Connection closed");
-			}
-			if (!s.isClosed()) {
-				s.close();
-				System.out.println("Connection closed");
-			}
-		}
+	private DevServer() {
+		super(new InetSocketAddress(PORT));
 	}
 
 	/**
@@ -84,7 +47,7 @@ public class DevServer {
 	 * @throws SocketException Thrown by
 	 *                         {@link NetworkInterface#getNetworkInterfaces()}
 	 */
-	public InetAddress getIPAddr() throws SocketException {
+	public static InetAddress getIPAddr() throws SocketException {
 		Enumeration<NetworkInterface> ifs = NetworkInterface.getNetworkInterfaces();
 		for (NetworkInterface intf : Collections.list(ifs)) {
 			Enumeration<InetAddress> addrs = intf.getInetAddresses();
@@ -96,6 +59,49 @@ public class DevServer {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public void onClose(WebSocket conn, int arg1, String arg2, boolean arg3) {
+		System.out.println("Connection to " + conn.getRemoteSocketAddress().getAddress().toString() + " closed");
+	}
+
+	@Override
+	public void onError(WebSocket conn, Exception e) {
+		e.printStackTrace();
+		System.out.println("An exception occured! Connection closed");
+	}
+
+	@Override
+	public void onMessage(WebSocket conn, String msg) {
+		for (String line : msg.split("[\r\n]+")) {
+			if (line.startsWith("e")) {
+				line = line.substring(1);
+				System.out.println("Executing command (pin-mapping enabled): " + line);
+				hexapode.exec(line);
+			} else if (line.startsWith("s")) {
+				line = line.substring(1);
+				System.out.println("Executing command (pin-mapping disabled): " + line);
+				hexapode.serialCommand(line);
+			}
+		}
+	}
+
+	@Override
+	public void onOpen(WebSocket conn, ClientHandshake arg1) {
+		System.out.println("Now connected to: " + conn.getRemoteSocketAddress().getAddress().toString());
+	}
+
+	@Override
+	public void onStart() {
+		try {
+			System.out.println("Now waiting for incoming connections at " + getIPAddr().getHostAddress() + " on port "
+					+ getPort());
+		} catch (SocketException e) {
+			System.out.println("Now waiting for incoming connections at " + getAddress().getAddress().getHostAddress()
+					+ " on port " + getPort());
+		}
+		setConnectionLostTimeout(100);
 	}
 
 }
