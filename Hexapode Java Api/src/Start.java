@@ -3,7 +3,6 @@ import java.io.IOException;
 import api.advanced.Bundle;
 import api.advanced.BundleCreator;
 import api.basic.Hexapode;
-import static api.basic.PINConstants.*;
 
 public class Start {
 

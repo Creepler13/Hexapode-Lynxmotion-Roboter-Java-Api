@@ -22,8 +22,8 @@ public class Example2 {
 		// this bundle is executed
 		bundle.add(110, 1500);
 		// Tip: You can add as many servos as you like
-		
-		//Merge two Bundles (all command will run with the Time of here:"bundle")
+
+		// Merge two Bundles (all command will run with the Time of here:"bundle")
 		Bundle bundle2 = new Bundle(2000);
 		bundle.add(bundle2);
 
@@ -44,7 +44,7 @@ public class Example2 {
 		// Add an instruction to rotate the leg in the other direction instead (must be
 		// done in two steps, see Javadoc for add)
 		bundle.add(100, 0);
-		
+
 		// Do the same thing for the knee servo
 		bundle.remove(110);
 		bundle.add(110, 0);
@@ -52,14 +52,9 @@ public class Example2 {
 		// Execute this Bundle
 		// The two commands will run simultaneously for 500 milliseconds as specified
 		// by the argument
-		bundle.exec(500);
-
-		// Wait, until the leg has stopped moving (+ 0.5 seconds)
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		// By using execBlocking, Thread,sleep is automatically called to wait while the
+		// command is being executed
+		bundle.execBlocking(500);
 
 		// Print the command which is executed by calling exec without a custom time
 		// argument (the first one)
@@ -71,7 +66,8 @@ public class Example2 {
 
 		// Print the default execution time (specified in the constructor; here: 1000)
 		System.out.println("bundle.getTime():\n" + bundle.getTime());
-		// Tip: You can also change the default execution time by calling setTime like this (uncomment to try it out):
+		// Tip: You can also change the default execution time by calling setTime like
+		// this (uncomment to try it out):
 		// bundle.setTime(2000);
 
 		// Do the same as getCommand

@@ -2,8 +2,6 @@ package api.advanced;
 
 import java.util.ArrayList;
 
-import javax.swing.DebugGraphics;
-
 import api.basic.Hexapode;
 
 /**

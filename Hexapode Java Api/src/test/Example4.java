@@ -37,6 +37,7 @@ public class Example4 {
 
 		// Execute the commands in the Collection
 		// The commands will all run for their specified execution time
+		// (You could also use execBlocking, see Example 2)
 		collection.exec();
 
 		// You can also execute all instructions with the same execution time:

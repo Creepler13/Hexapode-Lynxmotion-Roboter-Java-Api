@@ -45,14 +45,7 @@ public class Example3 {
 		Bundle moveAll = BundleCreator.moveAllLegs(45, 750, 1430, 2500);
 
 		// Execute the Bundle
-		moveAll.exec();
-
-		// Wait until the legs have finished moving plus 0.5 seconds
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		moveAll.execBlocking();
 
 		// Execute the first Bundle again and move the front left leg back into position
 		moveLeg.exec();

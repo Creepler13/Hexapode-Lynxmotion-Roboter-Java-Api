@@ -20,7 +20,7 @@ import com.pi4j.io.serial.SerialFactory;
 import com.pi4j.io.serial.SerialPort;
 import com.pi4j.io.serial.StopBits;
 
-import devServer.DevServer;
+import dev.server.DevServer;
 
 /**
  *

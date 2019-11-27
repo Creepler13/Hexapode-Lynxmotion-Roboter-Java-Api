@@ -3,4 +3,4 @@
  * 
  * @author Creepler13 &amp; JustAnotherJavaProgrammer
  */
-package devServer;
+package dev.server;

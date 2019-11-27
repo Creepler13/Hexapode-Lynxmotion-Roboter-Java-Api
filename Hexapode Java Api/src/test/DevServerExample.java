@@ -6,7 +6,7 @@ import api.basic.Hexapode;
 import api.basic.PINConstants;
 
 /**
- * Showing how to connect to a {@link devServer.DevServer DevServer}
+ * Showing how to connect to a {@link dev.server.DevServer DevServer}
  * 
  * @author Creepler13 &amp; JustAnotherJavaProgrammer
  */
