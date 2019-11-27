@@ -34,7 +34,7 @@ public interface ExecutableCommands {
 	public void execBlocking();
 
 	/**
-	 * Like {@link ExecutableCommands#exec(int))} but blocks the Thread until the
+	 * Like {@link ExecutableCommands#exec(int)} but blocks the Thread until the
 	 * Command has been executed
 	 * @param time The execution time in milliseconds
 	 */
