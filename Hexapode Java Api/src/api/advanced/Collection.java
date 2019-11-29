@@ -92,6 +92,14 @@ public class Collection implements ExecutableCommands {
 		System.out.println(getTree());
 	}
 
+	public ArrayList<ExecutableCommands> getCommands() {
+		return commands;
+	}
+	
+	public ExecutableCommands getCommand(int index) {
+		return commands.get(index);
+	}
+	
 	/**
 	 * Returns a {@link String} containing a tree showing the hierarchy of
 	 * {@link ExecutableCommands} in this Collection

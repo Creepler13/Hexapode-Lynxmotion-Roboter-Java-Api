@@ -1,8 +1,13 @@
 package api.advanced;
 
+import static api.basic.PINConstants.BACK;
 import static api.basic.PINConstants.FOOT;
+import static api.basic.PINConstants.FRONT;
 import static api.basic.PINConstants.HIP;
 import static api.basic.PINConstants.KNEE;
+import static api.basic.PINConstants.LEFT;
+import static api.basic.PINConstants.MIDDLE;
+import static api.basic.PINConstants.RIGHT;
 
 import api.basic.Hexapode;
 
@@ -61,4 +66,92 @@ public class BundleCreator {
 		}
 		return bundle;
 	}
+	
+	
+	public static Sequence walk() {
+		
+		Bundle leftA = new Bundle(250);
+		Bundle leftB = new Bundle(250);
+		Bundle leftC = new Bundle(250);
+		Bundle leftD = new Bundle(250);
+		for (int i = 0; i < 3; i++) {
+			int leg = 0;
+			switch (i) {
+			case 0:
+				leg = FRONT;
+				break;
+			case 1:
+				leg = MIDDLE;
+				break;
+			default:
+				leg = BACK;
+				break;
+			}
+			if (i == 1) {
+				leftA.add(BundleCreator.moveLeg(leg + LEFT, 1500, 500, 1000, 250));
+				leftB.add(BundleCreator.moveLeg(leg + LEFT, 1500, 750, 1575, 250));
+				leftC.add(BundleCreator.moveLeg(leg + LEFT, 0, 750, 1575, 250));
+				leftD.add(BundleCreator.moveLeg(leg + LEFT, 0, 500, 1000, 250));
+			} else {
+				leftA.add(BundleCreator.moveLeg(leg + LEFT, 0, 750, 1575, 250));
+				leftB.add(BundleCreator.moveLeg(leg + LEFT, 0, 500, 1000, 250));
+				leftC.add(BundleCreator.moveLeg(leg + LEFT, 1500, 500, 1000, 250));
+				leftD.add(BundleCreator.moveLeg(leg + LEFT, 1500, 750, 1575, 250));
+			}
+
+		}
+
+		Bundle rightA = new Bundle(250);
+		Bundle rightB = new Bundle(250);
+		Bundle rightC = new Bundle(250);
+		Bundle rightD = new Bundle(250);
+		for (int i = 0; i < 3; i++) {
+			int leg = 0;
+			switch (i) {
+			case 0:
+				leg = FRONT;
+				break;
+			case 1:
+				leg = MIDDLE;
+				break;
+			default:
+				leg = BACK;
+				break;
+			}
+			if (i == 1) {
+				rightA.add(BundleCreator.moveLeg(leg + RIGHT, 1500, 500, 1000, 250));
+				rightB.add(BundleCreator.moveLeg(leg + RIGHT, 1500, 750, 1575, 250));
+				rightC.add(BundleCreator.moveLeg(leg + RIGHT, 0, 750, 1575, 250));
+				rightD.add(BundleCreator.moveLeg(leg + RIGHT, 0, 500, 1000, 250));
+			} else {
+				rightA.add(BundleCreator.moveLeg(leg + RIGHT, 0, 1000, 1575, 250));
+				rightB.add(BundleCreator.moveLeg(leg + RIGHT, 0, 1500, 1000, 250));
+				rightC.add(BundleCreator.moveLeg(leg + RIGHT, 1500, 1500, 1000, 250));
+				rightD.add(BundleCreator.moveLeg(leg + RIGHT, 1500, 1000, 1575, 250));
+			}
+		}
+		Collection a = new Collection();
+		a.add(leftA);
+		a.add(rightA);
+		Collection b = new Collection();
+		b.add(leftB);
+		b.add(rightB);
+		Collection c = new Collection();
+		c.add(leftC);
+		c.add(rightC);
+		Collection d = new Collection();
+		d.add(leftD);
+		d.add(rightD);
+		for (int i = 0; i < 20; i++) {
+			a.execBlocking();
+			b.execBlocking();
+			c.execBlocking();
+			d.execBlocking();
+		}
+		System.out.println("Done!");
+		return new Sequence(new Collection[] {a,b,c,d});
+		
+	}
+	
+	
 }
