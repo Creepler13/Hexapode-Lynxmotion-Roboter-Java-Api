@@ -55,7 +55,7 @@ public class PINConfig {
 	 * This method is called by the constructor so it does not need to be called
 	 * manually
 	 */
-	protected static void initPINConfig() {
+	public static void initPINConfig() {
 		if (pinsInitialized)
 			return;
 		pinsInitialized = true;
@@ -80,8 +80,8 @@ public class PINConfig {
 		// Front right hip
 		Hexapode.PIN_MAPPING[3][0] = 13;
 		Hexapode.PIN_MAPPING[3][1] = 110;
-		Hexapode.PIN_MAPPING[3][2] = 625;
-		Hexapode.POS_MULTIP[3] = 1500.0 / (2450.0 - 625);
+		Hexapode.PIN_MAPPING[3][2] = 620;
+		Hexapode.POS_MULTIP[3] = 1500.0 / (2470.0 - 620);
 		// Front right knee
 		Hexapode.PIN_MAPPING[4][0] = 14;
 		Hexapode.PIN_MAPPING[4][1] = 111;

@@ -190,7 +190,7 @@ public class Hexapode {
 	 * @param command The command which pin-mapping should be applied to
 	 * @return The command after pin-mapping has been applied
 	 */
-	public String applyPINMapping(String command) {
+	public static String applyPINMapping(String command) {
 //		for (int i = 0; i < PIN_MAPPING.length; i++) {
 //			System.out.println("[ " + PIN_MAPPING[i][0] + ", " + PIN_MAPPING[i][1] + " ]");
 //		}
@@ -211,7 +211,7 @@ public class Hexapode {
 	 * @param command The command which position-mapping should be applied to
 	 * @return The command after position-mapping has been applied
 	 */
-	public String applyPositionMapping(String command) {
+	public static String applyPositionMapping(String command) {
 		PINConfig.initPINConfig();
 		command = command.replaceAll(" ", "");
 		String[] instructions = command.split("[#|T]");

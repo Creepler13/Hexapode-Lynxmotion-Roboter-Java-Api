@@ -1,16 +1,22 @@
 package dev.server;
 
 import java.net.URI;
-import java.util.Map;
-
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
+
+import api.basic.Hexapode;
 
 public class DevClient extends WebSocketClient {
 
 	public DevClient(URI serverUri) {
 		super(serverUri);
+		try {
+			connectBlocking();
+		} catch (InterruptedException e) {
+			if (Hexapode.DEBUGGING)
+				e.printStackTrace();
+			System.out.println("The current Thread was interrupted whilst connectiong to a server!");
+		}
 	}
 
 	@Override
