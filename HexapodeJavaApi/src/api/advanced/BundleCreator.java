@@ -142,12 +142,6 @@ public class BundleCreator {
 		Collection d = new Collection();
 		d.add(leftD);
 		d.add(rightD);
-		for (int i = 0; i < 20; i++) {
-			a.execBlocking();
-			b.execBlocking();
-			c.execBlocking();
-			d.execBlocking();
-		}
 		System.out.println("Done!");
 		return new Sequence(new Collection[] {a,b,c,d});
 		
