@@ -1,5 +1,15 @@
 package api.advanced;
 
+/**
+ * A tool to combine multiple {@link ExecutableCommands} into one object, which
+ * runs one command after another.
+ * 
+ * @author JustAnotherJavaProgrammer
+ * @see test.Example5
+ * @see ExecutableCommands
+ * @see Bundle
+ * @see Collection
+ */
 public class Sequence extends Collection {
 
 	public Sequence() {

@@ -12,6 +12,7 @@ import api.basic.Hexapode;
  * @see test.Example4
  * @see ExecutableCommands
  * @see Bundle
+ * @see Sequence Use a Sequence to execute the commandfs one after another
  */
 public class Collection implements ExecutableCommands {
 
