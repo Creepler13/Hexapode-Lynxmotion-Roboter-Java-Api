@@ -24,12 +24,17 @@ public class Start {
 			e.printStackTrace();
 		}
 		for (int i = 0; i < 10; i++) {
-			createSequence().execBlocking(5000);
+			createSequenceWalking().execBlocking(2000);
 		}
 
 	}
 
-	private static Sequence createSequence() {
+	/**
+	 * Looks a little like the robot is walking
+	 * 
+	 * @return The walking Sequence
+	 */
+	private static Sequence createSequenceWalking() {
 		Bundle leftA = new Bundle(250);
 		Bundle leftB = new Bundle(250);
 		Bundle leftC = new Bundle(250);
@@ -48,15 +53,15 @@ public class Start {
 				break;
 			}
 			if (i == 1) {
-				leftA.add(BundleCreator.moveLeg(leg + LEFT, 1500, 500, 1000, 250));
-				leftB.add(BundleCreator.moveLeg(leg + LEFT, 1500, 750, 1575, 250));
-				leftC.add(BundleCreator.moveLeg(leg + LEFT, 0, 750, 1575, 250));
-				leftD.add(BundleCreator.moveLeg(leg + LEFT, 0, 500, 1000, 250));
+				leftA.add(BundleCreator.moveLeg(leg + LEFT, 1250, 500, 1000, 250));
+				leftB.add(BundleCreator.moveLeg(leg + LEFT, 1250, 750, 1575, 250));
+				leftC.add(BundleCreator.moveLeg(leg + LEFT, 250, 750, 1575, 250));
+				leftD.add(BundleCreator.moveLeg(leg + LEFT, 250, 500, 1000, 250));
 			} else {
-				leftA.add(BundleCreator.moveLeg(leg + LEFT, 0, 750, 1575, 250));
-				leftB.add(BundleCreator.moveLeg(leg + LEFT, 0, 500, 1000, 250));
-				leftC.add(BundleCreator.moveLeg(leg + LEFT, 1500, 500, 1000, 250));
-				leftD.add(BundleCreator.moveLeg(leg + LEFT, 1500, 750, 1575, 250));
+				leftA.add(BundleCreator.moveLeg(leg + LEFT, 250, 750, 1575, 250));
+				leftB.add(BundleCreator.moveLeg(leg + LEFT, 250, 500, 1000, 250));
+				leftC.add(BundleCreator.moveLeg(leg + LEFT, 1250, 500, 1000, 250));
+				leftD.add(BundleCreator.moveLeg(leg + LEFT, 1250, 750, 1575, 250));
 			}
 
 		}
@@ -79,15 +84,15 @@ public class Start {
 				break;
 			}
 			if (i == 1) {
-				rightA.add(BundleCreator.moveLeg(leg + RIGHT, 1500, 500, 1000, 250));
-				rightB.add(BundleCreator.moveLeg(leg + RIGHT, 1500, 750, 1575, 250));
-				rightC.add(BundleCreator.moveLeg(leg + RIGHT, 0, 750, 1575, 250));
-				rightD.add(BundleCreator.moveLeg(leg + RIGHT, 0, 500, 1000, 250));
+				rightA.add(BundleCreator.moveLeg(leg + RIGHT, 1250, 500, 1000, 250));
+				rightB.add(BundleCreator.moveLeg(leg + RIGHT, 1250, 750, 1575, 250));
+				rightC.add(BundleCreator.moveLeg(leg + RIGHT, 250, 750, 1575, 250));
+				rightD.add(BundleCreator.moveLeg(leg + RIGHT, 250, 500, 1000, 250));
 			} else {
-				rightA.add(BundleCreator.moveLeg(leg + RIGHT, 0, 1000, 1575, 250));
-				rightB.add(BundleCreator.moveLeg(leg + RIGHT, 0, 1500, 1000, 250));
-				rightC.add(BundleCreator.moveLeg(leg + RIGHT, 1500, 1500, 1000, 250));
-				rightD.add(BundleCreator.moveLeg(leg + RIGHT, 1500, 1000, 1575, 250));
+				rightA.add(BundleCreator.moveLeg(leg + RIGHT, 250, 1000, 1575, 250));
+				rightB.add(BundleCreator.moveLeg(leg + RIGHT, 250, 1500, 1000, 250));
+				rightC.add(BundleCreator.moveLeg(leg + RIGHT, 1250, 1500, 1000, 250));
+				rightD.add(BundleCreator.moveLeg(leg + RIGHT, 1250, 1000, 1575, 250));
 			}
 		}
 		Collection a = new Collection();
@@ -105,6 +110,8 @@ public class Start {
 		System.out.println("Done!");
 		return new Sequence(new Collection[] { a, b, c, d });
 	}
+	
+	public Sequence 
 
 	public static void moveServo(int pin, int pos, int time) {
 		Hexapode.getInstance().serialCommand(Hexapode.applyPINMapping("#" + pin + "P" + pos + "T" + time));
