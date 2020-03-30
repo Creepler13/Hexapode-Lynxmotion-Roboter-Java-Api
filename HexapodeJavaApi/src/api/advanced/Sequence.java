@@ -74,7 +74,7 @@ public class Sequence extends Collection {
 	 * Call the {@link ExecutableCommands#execBlocking() execBlocking()} methods of all contained
 	 * commands
 	 * 
-	 * @see ExecutableCommand#execBlocking()
+	 * @see ExecutableCommands#execBlocking()
 	 */
 	@Override
 	public void execBlocking() {

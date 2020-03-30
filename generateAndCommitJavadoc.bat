@@ -1,6 +1,6 @@
 echo off
 echo Generating Javadoc...
-javadoc -use -classpath "Hexapode Java API\lib\*" -sourcepath "Hexapode Java Api\src" --allow-script-in-comments -d docs -use -windowtitle "Hexapod Lynxmotion API Documentation" -header "Lynxmotion Hexapod Java API (unofficial API)" -doctitle "Lynxmotion Hexapod Java API" -overview "Hexapode Java Api\src\overview.html" -J-Xmx512m -subpackages api:dev:test
+javadoc -use -classpath "HexapodeJavaApi\lib\*";"HexapodeJavaApi\lib\thirdparty\*" -sourcepath "HexapodeJavaApi\src" --allow-script-in-comments -d docs -use -windowtitle "Hexapod Lynxmotion API Documentation" -header "Lynxmotion Hexapod Java API (unofficial API)" -doctitle "Lynxmotion Hexapod Java API" -overview "HexapodeJavaApi\src\overview.html" -J-Xmx512m -subpackages api:dev:test
 pause
 echo Adding newly generated doc files...
 git add -A docs
